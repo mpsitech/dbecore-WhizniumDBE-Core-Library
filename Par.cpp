@@ -205,7 +205,13 @@ void Par::setSmallint(
 smallint Par::getSmallint() {
 	smallint retval;
 
-	retval = (buf[0] << 8) + buf[1];
+	if (Dbe::bigendian()) {
+		((unsigned char*) &retval)[0] = buf[0];
+		((unsigned char*) &retval)[1] = buf[1];
+	} else {
+		((unsigned char*) &retval)[0] = buf[1];
+		((unsigned char*) &retval)[1] = buf[0];
+	};
 
 	return retval;
 };
@@ -253,7 +259,17 @@ void Par::setInt(
 int Par::getInt() {
 	int retval;
 
-	retval = (buf[0] << 24) + (buf[1] << 16) + (buf[2] << 8) + buf[3];
+	if (Dbe::bigendian()) {
+		((unsigned char*) &retval)[0] = buf[0];
+		((unsigned char*) &retval)[1] = buf[1];
+		((unsigned char*) &retval)[2] = buf[2];
+		((unsigned char*) &retval)[3] = buf[3];
+	} else {
+		((unsigned char*) &retval)[0] = buf[3];
+		((unsigned char*) &retval)[1] = buf[2];
+		((unsigned char*) &retval)[2] = buf[1];
+		((unsigned char*) &retval)[3] = buf[0];
+	};
 
 	return retval;
 };

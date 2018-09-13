@@ -107,7 +107,9 @@ string Rst::VecVState::getTitle(
 Rst::Rst(
 			const uint ixVTarget
 			, const ubigint uref
-		) {
+		) :
+			cProgress("cProgress", "Rst", "Rst")
+		{
 	this->ixVTarget = ixVTarget;
 	this->uref = uref;
 
@@ -116,16 +118,12 @@ Rst::Rst(
 	root = false;
 	cmd = NULL;
 
-	Mutex::init(&mAccess, true, "mAccess", "Rst", "Rst");
-
 	progressCallback = NULL;
 	argProgressCallback = NULL;
 };
 
 Rst::~Rst() {
 	if (cmd) delete cmd;
-
-	Mutex::destroy(&mAccess, true, "mAccess", "Rst", "~Rst");
 };
 
 void Rst::setProgressCallback(
@@ -136,16 +134,31 @@ void Rst::setProgressCallback(
 	argProgressCallback = _argProgressCallback;
 };
 
-int Rst::lockAccess(
+void Rst::lockAccess(
 			const string& srefObject
 			, const string& srefMember
 		) {
-	return Mutex::lock(&mAccess, "rst(" + to_string(rref) + ")->mAccess", srefObject, srefMember);
+	cProgress.lockMutex(srefObject, srefMember);
 };
 
-int Rst::unlockAccess(
+void Rst::signalProgress(
 			const string& srefObject
 			, const string& srefMember
 		) {
-	return Mutex::unlock(&mAccess, "rst(" + to_string(rref) + ")->mAccess", srefObject, srefMember);
+	cProgress.signal(srefObject, srefMember);
+};
+
+bool Rst::timedwaitProgress(
+			const unsigned int dt
+			, const string& srefObject
+			, const string& srefMember
+		) {
+	return cProgress.timedwait(dt, srefObject, srefMember);
+};
+
+void Rst::unlockAccess(
+			const string& srefObject
+			, const string& srefMember
+		) {
+	cProgress.unlockMutex(srefObject, srefMember);
 };

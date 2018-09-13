@@ -117,12 +117,19 @@ Bufxf::Bufxf(
 			const utinyint tixWBuffer
 			, const bool writeNotRead
 			, const size_t reqlen
-		) {
+			, const size_t prelen
+			, const size_t postlen
+			, unsigned char* buf
+		) :
+			cProgress("cProgress", "Bufxf", "Bufxf")
+		{
 	this->tixWBuffer = tixWBuffer;
 
 	this->writeNotRead = writeNotRead;
 
 	this->reqlen = reqlen;
+	this->prelen = prelen;
+	this->postlen = postlen;
 
 	ixVTarget = 0;
 	uref = 0;
@@ -133,12 +140,13 @@ Bufxf::Bufxf(
 	
 	rootTixWBuffer = 0;
 
-	data = new unsigned char[reqlen];
-	ptr = 0;
+	dataExtNotInt = (buf != NULL);
+	if (dataExtNotInt) data = buf;
+	else data = new unsigned char[prelen+reqlen+postlen];
+
+	ptr = prelen;
 
 	success = false;
-
-	Mutex::init(&mAccess, true, "mAccess", "Bufxf", "Bufxf");
 
 	progressCallback = NULL;
 	argProgressCallback = NULL;
@@ -153,9 +161,7 @@ Bufxf::Bufxf(
 Bufxf::~Bufxf() {
 	for (unsigned int i=0;i<cmds.size();i++) if (cmds[i]) delete cmds[i];
 
-	if (data) delete[] data;
-
-	Mutex::destroy(&mAccess, true, "mAccess", "Bufxf", "~Bufxf");
+	if (!dataExtNotInt && data) delete[] data;
 };
 
 void Bufxf::appendReadData(
@@ -173,16 +179,16 @@ void Bufxf::appendReadData(
 unsigned char* Bufxf::getReadData() {
 	unsigned char* retval = NULL;
 
-	if (ptr > 0) {
-		retval = new unsigned char[ptr];
-		memcpy(retval, data, ptr);
+	if (ptr > prelen) {
+		retval = new unsigned char[ptr-prelen];
+		memcpy(retval, &(data[prelen]), ptr-prelen);
 	};
 
 	return retval;
 };
 
 size_t Bufxf::getReadDatalen() {
-	return ptr;
+	return(ptr-prelen);
 };
 
 void Bufxf::setWriteData(
@@ -191,7 +197,7 @@ void Bufxf::setWriteData(
 		) {
 	if (_datalen != reqlen) return;
 
-	memcpy(data, _data, _datalen);
+	memcpy(&(data[prelen]), _data, _datalen);
 
 	ptr = 0;
 };
@@ -220,16 +226,31 @@ void Bufxf::setDoneCallback(
 	argDoneCallback = _argDoneCallback;
 };
 
-int Bufxf::lockAccess(
+void Bufxf::lockAccess(
 			const string& srefObject
 			, const string& srefMember
 		) {
-	return Mutex::lock(&mAccess, "bufxf(" + to_string(bref) + ")->mAccess", srefObject, srefMember);
+	cProgress.lockMutex(srefObject, srefMember);
 };
 
-int Bufxf::unlockAccess(
+void Bufxf::signalProgress(
 			const string& srefObject
 			, const string& srefMember
 		) {
-	return Mutex::unlock(&mAccess, "bufxf(" + to_string(bref) + ")->mAccess", srefObject, srefMember);
+	cProgress.signal(srefObject, srefMember);
+};
+
+bool Bufxf::timedwaitProgress(
+			const unsigned int dt
+			, const string& srefObject
+			, const string& srefMember
+		) {
+	return cProgress.timedwait(dt, srefObject, srefMember);
+};
+
+void Bufxf::unlockAccess(
+			const string& srefObject
+			, const string& srefMember
+		) {
+	cProgress.unlockMutex(srefObject, srefMember);
 };

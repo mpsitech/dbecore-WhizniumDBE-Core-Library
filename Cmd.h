@@ -10,7 +10,6 @@
 #define DBECORE_CMD_H
 
 #include <dbecore/Err.h>
-#include <dbecore/Par.h>
 
 /**
   * cmdix_t
@@ -75,8 +74,8 @@ public:
 
 	public:
 		static const uint VOID = 1;
-		static const uint IMM = 2;
-		static const uint DFR = 3;
+		static const uint IMMSNG = 2;
+		static const uint DFRSNG = 3;
 		static const uint MULT = 4;
 
 		static uint getIx(const string& sref);
@@ -130,7 +129,7 @@ public:
 	map<string,Par> parsRet;
 	vector<string> seqParsRet;
 
-	pthread_mutex_t mAccess;
+	Cond cProgress;
 
 	bool (*progressCallback)(Cmd* cmd, void* arg);
 	void* argProgressCallback;
@@ -157,8 +156,11 @@ public:
 
 	virtual void returnToCallback();
 
-	int lockAccess(const string& srefObject, const string& srefMember);
-	int unlockAccess(const string& srefObject, const string& srefMember);
+	void lockAccess(const string& srefObject, const string& srefMember);
+	void signalProgress(const string& srefObject, const string& srefMember);
+	void waitProgress(const string& srefObject, const string& srefMember);
+	bool timedwaitProgress(const unsigned int dt, const string& srefObject, const string& srefMember);
+	void unlockAccess(const string& srefObject, const string& srefMember);
 
 	void hexToParsInv(const string& s);
 	void parlistToParsInv(const string& s);

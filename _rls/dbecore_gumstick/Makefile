@@ -2,33 +2,48 @@
 # make file for Whiznium DBE core library, release dbecore_gumstick
 # author Alexander Wirthmueller
 # date created: 9 Dec 2016
-# modified: 9 Dec 2016
+# modified: 19 Aug 2018
 
-SRCROOT = /home/mpsi/src
-LIBROOT = /home/mpsi/lib
+SRCROOT = /home/gumstix/src
 
-CC = g++
-CPPFLAGS = -std=c++11 -g -Wall -pthread
+CPP = g++
+CPPFLAGS = -std=c++11 -g -Wall -pthread -fpic
 
-INCS = -I$(SRCROOT)
-INCS += -I/usr/include/libxml2
+STATLIB = ar
+STATLIBFLAGS = rcs
 
-OBJECTS = Bufxf.o Cmd.o Crc.o Dbe.o Err.o Par.o Rst.o
+DYNLIB = g++
+DYNLIBFLAGS = -shared
+DYNLIBEXT = so
 
-LIBRARY = libdbecore
+INCINSTPATH = /usr/local/include
+LIBINSTPATH = /usr/local/lib
+
+INCPATH = -I$(SRCROOT)
+INCPATH += -I/usr/local/include/libxml2
+
+OBJS = Bufxf.o Cmd.o Crc.o Dbe.o Err.o Par.o Rst.o
+
+LIB = libdbecore
 
 .SUFFIXES: .cpp
 
 .cpp.o:
-	$(CC) $(CPPFLAGS) $(INCS) -o $@ -c $<
+	$(CPP) $(CPPFLAGS) $(INCPATH) -o $@ -c $<
 
-all:	$(LIBRARY)
+all:	$(LIB)
 
-$(LIBRARY):	$(OBJECTS)
-	ar rcs $(LIBRARY).a $(OBJECTS)
+$(LIB):	$(OBJS)
+	$(STATLIB) $(STATLIBFLAGS) $(LIB).a $(OBJS)
+	$(DYNLIB) $(DYNLIBFLAGS) $(OBJS) -o $(LIB).$(DYNLIBEXT)
 
 install:
-	cp $(LIBRARY).a $(LIBROOT)/
+	-mkdir $(INCINSTPATH)/dbecore
+	chmod 755 $(INCINSTPATH)/dbecore
+	cp $(SRCROOT)/dbecore/*.h $(INCINSTPATH)/dbecore/
+	cp $(LIB).a $(LIBINSTPATH)/
+	cp $(LIB).$(DYNLIBEXT) $(LIBINSTPATH)/
+	chmod 755 $(LIBINSTPATH)/libdbecore*
 
-clean: 
+clean:
 	rm -f *.o

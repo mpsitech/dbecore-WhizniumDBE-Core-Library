@@ -70,7 +70,7 @@ public:
 	};
 
 public:
-	Bufxf(const utinyint tixWBuffer, const bool writeNotRead, const size_t reqlen);
+	Bufxf(const utinyint tixWBuffer, const bool writeNotRead, const size_t reqlen, const size_t prelen = 0, const size_t postlen = 0, unsigned char* buf = NULL);
 	~Bufxf();
 
 public:
@@ -79,6 +79,8 @@ public:
 	bool writeNotRead;
 
 	size_t reqlen;
+	size_t prelen;
+	size_t postlen;
 
 	uint ixVTarget;
 	ubigint uref;
@@ -92,12 +94,13 @@ public:
 	utinyint rootTixWBuffer;
 	vector<Cmd*> cmds;
 
+	bool dataExtNotInt;
 	unsigned char* data;
 	size_t ptr;
 
 	bool success; // ev. replace by Err
 
-	pthread_mutex_t mAccess;
+	Cond cProgress;
 
 	bool (*progressCallback)(Bufxf* bufxf, void* arg);
 	void* argProgressCallback;
@@ -119,8 +122,10 @@ public:
 	void setErrorCallback(bool (*_errorCallback)(Bufxf* bufxf, void* arg), void* _argErrorCallback);
 	void setDoneCallback(bool (*_doneCallback)(Bufxf* bufxf, void* arg), void* _argDoneCallback);
 
-	int lockAccess(const string& srefObject, const string& srefMember);
-	int unlockAccess(const string& srefObject, const string& srefMember);
+	void lockAccess(const string& srefObject, const string& srefMember);
+	void signalProgress(const string& srefObject, const string& srefMember);
+	bool timedwaitProgress(const unsigned int dt, const string& srefObject, const string& srefMember);
+	void unlockAccess(const string& srefObject, const string& srefMember);
 };
 
 #endif

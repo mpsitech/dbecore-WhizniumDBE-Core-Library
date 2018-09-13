@@ -1,11 +1,11 @@
 #!/bin/bash
 # file checkout.sh
-# checkout script for Whiznium DBE core library, release dbecore_gumstick
+# checkout script for Whiznium DBE core library, release dbecore_jack
 # author Alexander Wirthmueller
-# date created: 9 Dec 2016
-# modified: 19 Aug 2018
+# date created: 8 Feb 2016
+# modified: 12 Jun 2016
 
-export set SRCROOT=/home/gumstix/src
+export set SRCROOT=/home/mpsitech/src
 
 mkdir $SRCROOT/dbecore
 

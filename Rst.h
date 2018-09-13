@@ -84,7 +84,7 @@ public:
 
 	set<uint> subIcsVTarget;
 
-	pthread_mutex_t mAccess;
+	Cond cProgress;
 
 	bool (*progressCallback)(Rst* rst, void* arg);
 	void* argProgressCallback;
@@ -92,8 +92,10 @@ public:
 public:
 	void setProgressCallback(bool (*_progressCallback)(Rst* rst, void* arg), void* _argProgressCallback);
 
-	int lockAccess(const string& srefObject, const string& srefMember);
-	int unlockAccess(const string& srefObject, const string& srefMember);
+	void lockAccess(const string& srefObject, const string& srefMember);
+	void signalProgress(const string& srefObject, const string& srefMember);
+	bool timedwaitProgress(const unsigned int dt, const string& srefObject, const string& srefMember);
+	void unlockAccess(const string& srefObject, const string& srefMember);
 };
 
 #endif

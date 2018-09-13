@@ -96,8 +96,8 @@ uint Cmd::VecVRettype::getIx(
 	string s = StrMod::lc(sref);
 
 	if (s == "void") return VOID;
-	else if (s == "imm") return IMM;
-	else if (s == "dfr") return DFR;
+	else if (s == "immsng") return IMMSNG;
+	else if (s == "dfrsng") return DFRSNG;
 	else if (s == "mult") return MULT;
 
 	return 0;
@@ -107,8 +107,8 @@ string Cmd::VecVRettype::getSref(
 			const uint ix
 		) {
 	if (ix == VOID) return("void");
-	else if (ix == IMM) return("imm");
-	else if (ix == DFR) return("dfr");
+	else if (ix == IMMSNG) return("imm");
+	else if (ix == DFRSNG) return("dfrsng");
 	else if (ix == MULT) return("mult");
 
 	return("");
@@ -118,8 +118,8 @@ string Cmd::VecVRettype::getTitle(
 			const uint ix
 		) {
 	if (ix == VOID) return("none");
-	else if (ix == IMM) return("immediate");
-	else if (ix == DFR) return("deferred");
+	else if (ix == IMMSNG) return("immediate single");
+	else if (ix == DFRSNG) return("deferred single");
 	else if (ix == MULT) return("multiple");
 
 	return("");
@@ -184,7 +184,9 @@ Cmd::Cmd(
 			const utinyint tixVController
 			, const utinyint tixVCommand
 			, const uint ixVRettype
-		) {
+		) :
+			cProgress("cProgress", "Cmd", "Cmd")
+		{
 	this->tixVController = tixVController;
 	this->tixVCommand = tixVCommand;
 
@@ -198,8 +200,6 @@ Cmd::Cmd(
 	cref = 0;
 	
 	Nret = 0;
-
-	Mutex::init(&mAccess, true, "mAccess", "Cmd", "Cmd");
 
 	progressCallback = NULL;
 	argProgressCallback = NULL;
@@ -215,7 +215,6 @@ Cmd::Cmd(
 };
 
 Cmd::~Cmd() {
-	Mutex::destroy(&mAccess, true, "mAccess", "Cmd", "~Cmd");
 };
 
 void Cmd::addParInv(
@@ -276,18 +275,40 @@ void Cmd::returnToCallback() {
 	if (returnCallback) returnCallback(this, argReturnCallback);
 };
 
-int Cmd::lockAccess(
+void Cmd::lockAccess(
 			const string& srefObject
 			, const string& srefMember
 		) {
-	return Mutex::lock(&mAccess, "cmd(" + to_string(cref) + ")->mAccess", srefObject, srefMember);
+	cProgress.lockMutex(srefObject, srefMember);
 };
 
-int Cmd::unlockAccess(
+void Cmd::signalProgress(
 			const string& srefObject
 			, const string& srefMember
 		) {
-	return Mutex::unlock(&mAccess, "cmd(" + to_string(cref) + ")->mAccess", srefObject, srefMember);
+	cProgress.signal(srefObject, srefMember);
+};
+
+void Cmd::waitProgress(
+			const string& srefObject
+			, const string& srefMember
+		) {
+	cProgress.wait(srefObject, srefMember);
+};
+
+bool Cmd::timedwaitProgress(
+			const unsigned int dt
+			, const string& srefObject
+			, const string& srefMember
+		) {
+	return cProgress.timedwait(dt, srefObject, srefMember);
+};
+
+void Cmd::unlockAccess(
+			const string& srefObject
+			, const string& srefMember
+		) {
+	cProgress.lockMutex(srefObject, srefMember);
 };
 
 void Cmd::hexToParsInv(

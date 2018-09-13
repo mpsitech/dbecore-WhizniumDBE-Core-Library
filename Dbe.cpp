@@ -125,7 +125,7 @@ bool Dbe::bigendian() {
 	return(buf[0] == 0);
 };
 
-inline string Dbe::binToHex(
+string Dbe::binToHex(
 			unsigned char bin
 		) {
 	string hex;
@@ -143,7 +143,7 @@ inline string Dbe::binToHex(
 	return hex;
 };
 
-inline unsigned char Dbe::hexToBin(
+unsigned char Dbe::hexToBin(
 			string hex
 		) {
 	if (hex.size() != 2) return 0;
@@ -200,7 +200,11 @@ string Dbe::bufToHex(
 	if (buf) {
 		if ((buflen > 256) && truncate) {
 			if (truncated) *truncated = true;
-			hex = "...";
+
+			for (size_t i=0;i<64;i++) hex += binToHex(buf[i]);
+			hex += " ... (total: " + to_string(buflen) + " bytes) ... ";
+			for (size_t i=(buflen-64);i<buflen;i++) hex += binToHex(buf[i]);
+
 		} else for (size_t i=0;i<buflen;i++) hex += binToHex(buf[i]);
 	};
 

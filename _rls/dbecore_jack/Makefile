@@ -1,10 +1,10 @@
 # file Makefile
-# make file for Whiznium DBE core library, release dbecore_genio
+# make file for Whiznium DBE core library, release dbecore_jack
 # author Alexander Wirthmueller
 # date created: 8 Feb 2016
 # modified: 12 Jun 2016
 
-SRCROOT = /home/epsi/src
+SRCROOT = /home/mpsitech/src
 
 CPP = g++
 CPPFLAGS = -std=c++11 -g -Wall -pthread -fpic
@@ -39,9 +39,11 @@ $(LIB):	$(OBJS)
 
 install:
 	-mkdir $(INCINSTPATH)/dbecore
+	chmod 755 $(INCINSTPATH)/dbecore
 	cp $(SRCROOT)/dbecore/*.h $(INCINSTPATH)/dbecore/
 	cp $(LIB).a $(LIBINSTPATH)/
 	cp $(LIB).$(DYNLIBEXT) $(LIBINSTPATH)/
+	chmod 755 $(LIBINSTPATH)/libdbecore*
 
 clean: 
 	rm -f *.o

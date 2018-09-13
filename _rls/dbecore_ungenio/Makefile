@@ -5,30 +5,43 @@
 # modified: 12 Jun 2016
 
 SRCROOT = /Users/mpsitech/src
-LIBROOT = /Users/mpsitech/lib
 
-CC = g++
-CPPFLAGS = -std=c++11 -g -Wall -pthread
+CPP = g++
+CPPFLAGS = -std=c++11 -g -Wall -pthread -fpic
 
-INCS = -I$(SRCROOT)
-INCS += -I/usr/local/include/libxml2
+STATLIB = ar
+STATLIBFLAGS = rcs
 
-OBJECTS = Bufxf.o Cmd.o Crc.o Dbe.o Err.o Par.o Rst.o
+DYNLIB = g++
+DYNLIBFLAGS = -dynamiclib -undefined dynamic_lookup
+DYNLIBEXT = dylib
 
-LIBRARY = libdbecore
+INCINSTPATH = /usr/local/include
+LIBINSTPATH = /usr/local/lib
+
+INCPATH = -I$(SRCROOT)
+INCPATH += -I/usr/local/include/libxml2
+
+OBJS = Bufxf.o Cmd.o Crc.o Dbe.o Err.o Par.o Rst.o
+
+LIB = libdbecore
 
 .SUFFIXES: .cpp
 
 .cpp.o:
-	$(CC) $(CPPFLAGS) $(INCS) -o $@ -c $<
+	$(CPP) $(CPPFLAGS) $(INCPATH) -o $@ -c $<
 
-all:	$(LIBRARY)
+all:	$(LIB)
 
-$(LIBRARY):	$(OBJECTS)
-	ar rcs $(LIBRARY).a $(OBJECTS)
+$(LIB):	$(OBJS)
+	$(STATLIB) $(STATLIBFLAGS) $(LIB).a $(OBJS)
+	$(DYNLIB) $(DYNLIBFLAGS) $(OBJS) -o $(LIB).$(DYNLIBEXT)
 
 install:
-	cp $(LIBRARY).a $(LIBROOT)/
+	-mkdir $(INCINSTPATH)/dbecore
+	cp $(SRCROOT)/dbecore/*.h $(INCINSTPATH)/dbecore/
+	cp $(LIB).a $(LIBINSTPATH)/
+	cp $(LIB).$(DYNLIBEXT) $(LIBINSTPATH)/
 
 clean: 
 	rm -f *.o
