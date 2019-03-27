@@ -9,6 +9,7 @@
 #ifndef DBECORE_DBE_H
 #define DBECORE_DBE_H
 
+#include <sbecore/Mttypes.h>
 #include <sbecore/Xmlio.h>
 
 using namespace Xmlio;
