@@ -32,7 +32,7 @@ void Crc::includeByte(
 	unsigned short newcrc;
 	bool bit;
 
-	unsigned  char i;
+	unsigned char i;
 
 	if (bitinv) i = 1;
 	else i = 128;

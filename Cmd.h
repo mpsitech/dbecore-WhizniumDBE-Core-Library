@@ -74,9 +74,10 @@ public:
 
 	public:
 		static const uint VOID = 1;
-		static const uint IMMSNG = 2;
-		static const uint DFRSNG = 3;
-		static const uint MULT = 4;
+		static const uint STATSNG = 2;
+		static const uint IMMSNG = 3;
+		static const uint DFRSNG = 4;
+		static const uint MULT = 5;
 
 		static uint getIx(const string& sref);
 		static string getSref(const uint ix);

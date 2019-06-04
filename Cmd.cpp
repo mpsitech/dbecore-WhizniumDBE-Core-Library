@@ -96,6 +96,7 @@ uint Cmd::VecVRettype::getIx(
 	string s = StrMod::lc(sref);
 
 	if (s == "void") return VOID;
+	else if (s == "statsng") return STATSNG;
 	else if (s == "immsng") return IMMSNG;
 	else if (s == "dfrsng") return DFRSNG;
 	else if (s == "mult") return MULT;
@@ -107,7 +108,8 @@ string Cmd::VecVRettype::getSref(
 			const uint ix
 		) {
 	if (ix == VOID) return("void");
-	else if (ix == IMMSNG) return("imm");
+	else if (ix == STATSNG) return("statsng");
+	else if (ix == IMMSNG) return("immsng");
 	else if (ix == DFRSNG) return("dfrsng");
 	else if (ix == MULT) return("mult");
 
@@ -118,6 +120,7 @@ string Cmd::VecVRettype::getTitle(
 			const uint ix
 		) {
 	if (ix == VOID) return("none");
+	else if (ix == STATSNG) return("static single");
 	else if (ix == IMMSNG) return("immediate single");
 	else if (ix == DFRSNG) return("deferred single");
 	else if (ix == MULT) return("multiple");
