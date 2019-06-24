@@ -7,9 +7,9 @@
 
 export set SRCROOT=${WHIZROOT}/src
 
-mkdir ${WHIZROOT}/dbecore
+mkdir ${SRCROOT}/dbecore
 
-cp Makefile ${WHIZROOT}/dbecore/
+cp Makefile ${SRCROOT}/dbecore/
 
-cp ../../*.h ${WHIZROOT}/dbecore/
-cp ../../*.cpp ${WHIZROOT}/dbecore/
+cp ../../*.h ${SRCROOT}/dbecore/
+cp ../../*.cpp ${SRCROOT}/dbecore/
