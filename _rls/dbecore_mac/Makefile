@@ -11,6 +11,7 @@ CPPFLAGS = -std=c++11 -g -Wall -pthread -fpic
 
 STATLIB = ar
 STATLIBFLAGS = rcs
+STATLIBEXT = a
 
 DYNLIB = g++
 DYNLIBFLAGS = -dynamiclib -undefined dynamic_lookup
@@ -34,7 +35,7 @@ LIB = libdbecore
 all:	${LIB}
 
 ${LIB}:	${OBJS}
-	${STATLIB} ${STATLIBFLAGS} ${LIB}.a ${OBJS}
+	${STATLIB} ${STATLIBFLAGS} ${LIB}.${STATLIBEXT} ${OBJS}
 	${DYNLIB} ${DYNLIBFLAGS} ${OBJS} -o ${LIB}.${DYNLIBEXT}
 
 install:
