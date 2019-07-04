@@ -4,7 +4,7 @@
 # date created: 8 Feb 2016
 # modified: 25 Jun 2019
 
-SRCROOT = /home/root/src
+SRCROOT = ${WHIZROOT}/src
 
 CPP = ${TCHROOT}/arm-linux-gnueabihf-g++
 CPPFLAGS = --sysroot=${SYSROOT} -std=c++11 -march=armv7 -mfpu=neon -mfloat-abi=hard -g -Wall -Os -pthread
@@ -14,7 +14,7 @@ STATLIBFLAGS = rcs
 STATLIBEXT = a
 
 DYNLIB = ${TCHROOT}/arm-linux-gnueabihf-g++
-DYNLIBFLAGS = -shared
+DYNLIBFLAGS = --sysroot=${SYSROOT} -shared
 DYNLIBEXT = so
 
 INCINSTPATH = ${SYSROOT}${WHIZROOT}/src
