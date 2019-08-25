@@ -7,7 +7,7 @@
 SRCROOT = ${WHIZROOT}/src
 
 CPP = ${TCHROOT}/arm-angstrom-linux-gnueabi-g++
-CPPFLAGS = --sysroot=${SYSROOT} -std=c++11 -march=armv7-a -mthumb -mfpu=neon -mfloat-abi=hard -g -Wall -Os -pthread
+CPPFLAGS = --sysroot=${SYSROOT} -std=c++11 -march=armv7-a -mthumb -mfpu=neon -mfloat-abi=hard -g -Wall -Os -pthread -fPIC
 
 STATLIB = ${TCHROOT}/arm-angstrom-linux-gnueabi-ar
 STATLIBFLAGS = rcs
