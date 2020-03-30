@@ -159,7 +159,7 @@ Bufxf::Bufxf(
 };
 
 Bufxf::~Bufxf() {
-	for (unsigned int i=0;i<cmds.size();i++) if (cmds[i]) delete cmds[i];
+	for (unsigned int i = 0; i < cmds.size(); i++) if (cmds[i]) delete cmds[i];
 
 	if (!dataExtNotInt && data) delete[] data;
 };

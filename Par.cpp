@@ -375,7 +375,7 @@ void Par::parsToBuf(
 
 	buflen = 0;
 
-	for (auto it=pars.begin();it!=pars.end();it++) buflen += it->second.buflen;
+	for (auto it = pars.begin(); it != pars.end(); it++) buflen += it->second.buflen;
 
 	if (buflen > 0) {
 		*buf = new unsigned char[buflen];
@@ -384,7 +384,7 @@ void Par::parsToBuf(
 
 	bufptr = 0;
 
-	for (unsigned int i=0;i<seqPars.size();i++) {
+	for (unsigned int i = 0; i < seqPars.size(); i++) {
 		auto it = pars.find(seqPars[i]);
 
 		if (it != pars.end()) {
@@ -413,7 +413,7 @@ string Par::parsToText(
 	bool first;
 
 	first = true;
-	for (unsigned int i=0;i<seqPars.size();i++) {
+	for (unsigned int i = 0; i < seqPars.size(); i++) {
 		auto it = pars.find(seqPars[i]);
 
 		if (it != pars.end()) {
@@ -453,7 +453,7 @@ string Par::parsToText(
 					retval += "(" + to_string(par->buflen) + " bytes)";
 				} else {
 					retval += "0x";
-					if (par->buf) for (size_t j=0;j<par->buflen;j++) retval += Dbe::binToHex(par->buf[j]);
+					if (par->buf) for (size_t j = 0; j < par->buflen; j++) retval += Dbe::binToHex(par->buf[j]);
 				};
 
 			} else if (par->ixVType == Par::VecVType::VBLOB) {
@@ -462,7 +462,7 @@ string Par::parsToText(
 					retval += "(" + to_string(par->buflen-1) + " bytes)";
 				} else {
 					retval += "0x";
-					if (par->buf) for (size_t j=1;j<par->buflen;j++) retval += Dbe::binToHex(par->buf[j]);
+					if (par->buf) for (size_t j = 1; j < par->buflen; j++) retval += Dbe::binToHex(par->buf[j]);
 				};
 			};
 		};

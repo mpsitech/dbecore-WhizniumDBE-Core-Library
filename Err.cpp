@@ -46,7 +46,7 @@ void Err::bufToPars(
 
 	bufptr = 0;
 
-	for (unsigned int i=0;i<seqPars.size();i++) {
+	for (unsigned int i = 0; i < seqPars.size(); i++) {
 		auto it = pars.find(seqPars[i]);
 
 		if (it != pars.end()) {
@@ -88,7 +88,7 @@ void Err::parsToBuf(
 size_t Err::getBuflen() {
 	size_t buflen = 0;
 
-	for (auto it=pars.begin();it!=pars.end();it++) buflen += it->second.buflen;
+	for (auto it = pars.begin(); it != pars.end(); it++) buflen += it->second.buflen;
 
 	return buflen;
 };

@@ -152,15 +152,15 @@ unsigned char Dbe::hexToBin(
 
 	c = hex[0];
 	if ((c >= '0') && (c <= '9')) c -= 0x30;
-	else if ((c >= 'A') && (c <= 'F')) c -= 0x41;
-	else if ((c >= 'a') && (c <= 'f')) c -= 0x61;
+	else if ((c >= 'A') && (c <= 'F')) c = c - 0x41 + 0x0A;
+	else if ((c >= 'a') && (c <= 'f')) c = c - 0x61 + 0x0A;
 	else c = 0;
 	bin = (c << 4);
 
 	c = hex[1];
 	if ((c >= '0') && (c <= '9')) c -= 0x30;
-	else if ((c >= 'A') && (c <= 'F')) c -= 0x41;
-	else if ((c >= 'a') && (c <= 'f')) c -= 0x61;
+	else if ((c >= 'A') && (c <= 'F')) c = c - 0x41 + 0x0A;
+	else if ((c >= 'a') && (c <= 'f')) c = c - 0x61 + 0x0A;
 	else c = 0;
 	bin += c;
 
@@ -186,7 +186,7 @@ void Dbe::hexToBuf(
 	};
 
 	*buf = new unsigned char[buflen];
-	for (;i<buflen;i++) (*buf)[i] = hexToBin(s.substr(2*i, 2));
+	for (; i < buflen; i++) (*buf)[i] = hexToBin(s.substr(2*i, 2));
 };
 
 string Dbe::bufToHex(
@@ -201,11 +201,11 @@ string Dbe::bufToHex(
 		if ((buflen > 256) && truncate) {
 			if (truncated) *truncated = true;
 
-			for (size_t i=0;i<64;i++) hex += binToHex(buf[i]);
+			for (size_t i = 0; i < 64; i++) hex += binToHex(buf[i]);
 			hex += " ... (total: " + to_string(buflen) + " bytes) ... ";
-			for (size_t i=(buflen-64);i<buflen;i++) hex += binToHex(buf[i]);
+			for (size_t i = (buflen - 64); i < buflen; i++) hex += binToHex(buf[i]);
 
-		} else for (size_t i=0;i<buflen;i++) hex += binToHex(buf[i]);
+		} else for (size_t i = 0; i < buflen; i++) hex += binToHex(buf[i]);
 	};
 
 	return hex;

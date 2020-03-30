@@ -55,7 +55,7 @@ void Crc::includeBytes(
 			const unsigned char* buf
 			, const size_t buflen
 		) {
-	for (unsigned int i=0;i<buflen;i++) includeByte(buf[i]);
+	for (unsigned int i = 0; i < buflen; i++) includeByte(buf[i]);
 };
 
 void Crc::finalize() {

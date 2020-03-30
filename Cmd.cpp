@@ -330,7 +330,7 @@ void Cmd::hexToParsInv(
 
 	bufptr = 0;
 
-	for (unsigned int i=0;i<seqParsInv.size();i++) {
+	for (unsigned int i = 0; i < seqParsInv.size(); i++) {
 		auto it = parsInv.find(seqParsInv[i]);
 
 		if (it != parsInv.end()) {
@@ -384,7 +384,7 @@ void Cmd::parlistToParsInv(
 
 	StrMod::stringToVector(s, ss, ',');
 
-	for (unsigned int i=0;i<ss.size();i++) {
+	for (unsigned int i = 0; i < ss.size(); i++) {
 		ptr = ss[i].find('=');
 
 		if (ptr != string::npos) {
@@ -454,6 +454,7 @@ void Cmd::parlistToParsInv(
 					} else if ((par->ixVType == Par::VecVType::BLOB) || (par->ixVType == Par::VecVType::VBLOB)) {
 						// expect hex code
 						Dbe::hexToBuf(val, &buf, buflen);
+cout << "val=" << val << ", derived buflen=" << buflen << endl;
 
 						if (par->ixVType == Par::VecVType::BLOB) {
 							par->setBlob(buf, buflen);
@@ -486,7 +487,7 @@ void Cmd::parsInvToBuf(
 size_t Cmd::getInvBuflen() {
 	size_t buflen = 0;
 
-	for (auto it=parsInv.begin();it!=parsInv.end();it++) buflen += it->second.buflen;
+	for (auto it = parsInv.begin(); it != parsInv.end(); it++) buflen += it->second.buflen;
 
 	return buflen;
 };
@@ -501,7 +502,7 @@ string Cmd::parsInvToTemplate() {
 	bool first;
 
 	first = true;
-	for (unsigned int i=0;i<seqParsInv.size();i++) {
+	for (unsigned int i = 0; i < seqParsInv.size(); i++) {
 		auto it = parsInv.find(seqParsInv[i]);
 
 		if (it != parsInv.end()) {
@@ -519,7 +520,7 @@ string Cmd::parsInvToTemplate() {
 				if (par->fillFeed) {
 					par->fillFeed(feed);
 
-					for (unsigned int j=0;j<feed.size();j++) {
+					for (unsigned int j = 0; j < feed.size(); j++) {
 						if (j != 0) retval += ",";
 						retval += feed.getSrefByNum(j+1);
 					};
@@ -565,7 +566,7 @@ string Cmd::getInvHex(
 };
 
 void Cmd::resetParsRet() {
-	for (auto it=parsRet.begin();it!=parsRet.end();it++) it->second.reset();
+	for (auto it = parsRet.begin(); it != parsRet.end(); it++) it->second.reset();
 };
 
 void Cmd::bufToParsRet(
@@ -580,7 +581,7 @@ void Cmd::bufToParsRet(
 
 	bufptr = 0;
 
-	for (unsigned int i=0;i<seqParsRet.size();i++) {
+	for (unsigned int i = 0; i < seqParsRet.size(); i++) {
 		auto it = parsRet.find(seqParsRet[i]);
 
 		if (it != parsRet.end()) {
@@ -622,7 +623,7 @@ void Cmd::parsRetToBuf(
 size_t Cmd::getRetBuflen() {
 	size_t buflen = 0;
 
-	for (auto it=parsRet.begin();it!=parsRet.end();it++) buflen += it->second.buflen;
+	for (auto it = parsRet.begin(); it != parsRet.end(); it++) buflen += it->second.buflen;
 
 	return buflen;
 };
