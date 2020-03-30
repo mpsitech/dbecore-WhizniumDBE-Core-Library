@@ -186,7 +186,7 @@ void Dbe::hexToBuf(
 	};
 
 	*buf = new unsigned char[buflen];
-	for (; i < buflen; i++) (*buf)[i] = hexToBin(s.substr(2*i, 2));
+	for (unsigned int j = 0; j < buflen; i++, j++) (*buf)[j] = hexToBin(s.substr(2*i, 2));
 };
 
 string Dbe::bufToHex(

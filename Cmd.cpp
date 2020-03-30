@@ -454,7 +454,6 @@ void Cmd::parlistToParsInv(
 					} else if ((par->ixVType == Par::VecVType::BLOB) || (par->ixVType == Par::VecVType::VBLOB)) {
 						// expect hex code
 						Dbe::hexToBuf(val, &buf, buflen);
-cout << "val=" << val << ", derived buflen=" << buflen << endl;
 
 						if (par->ixVType == Par::VecVType::BLOB) {
 							par->setBlob(buf, buflen);
