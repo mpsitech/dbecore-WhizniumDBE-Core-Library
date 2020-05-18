@@ -3,16 +3,19 @@
   * buffer transfer functionality (implementation)
   * \author Alexander Wirthmüller
   * \date created: 23 Nov 2016
-  * \date modified: 29 Apr 2017
+  * \date modified: 22 Apr 2020
   */
 
 #include "Bufxf.h"
+
+using namespace std;
+using namespace Sbecore;
 
 /******************************************************************************
  class bufxfref_t
  ******************************************************************************/
 
-bufxfref_t::bufxfref_t(
+Dbecore::bufxfref_t::bufxfref_t(
 			const uint ixVState
 			, const utinyint rootTixWBuffer
 			, const ubigint bref
@@ -22,7 +25,7 @@ bufxfref_t::bufxfref_t(
 	this->bref = bref;
 };
 
-bool bufxfref_t::operator<(
+bool Dbecore::bufxfref_t::operator<(
 			const bufxfref_t& comp
 		) const {
 	if (ixVState < comp.ixVState) return true;
@@ -40,7 +43,7 @@ bool bufxfref_t::operator<(
  class bufxfref2_t
  ******************************************************************************/
 
-bufxfref2_t::bufxfref2_t(
+Dbecore::bufxfref2_t::bufxfref2_t(
 			const uint ixVTarget
 			, const ubigint uref
 			, const ubigint bref
@@ -50,7 +53,7 @@ bufxfref2_t::bufxfref2_t(
 	this->bref = bref;
 };
 
-bool bufxfref2_t::operator<(
+bool Dbecore::bufxfref2_t::operator<(
 			const bufxfref2_t& comp
 		) const {
 	if (ixVTarget < comp.ixVTarget) return true;
@@ -68,7 +71,7 @@ bool bufxfref2_t::operator<(
  class Bufxf::VecVState
  ******************************************************************************/
 
-uint Bufxf::VecVState::getIx(
+uint Dbecore::Bufxf::VecVState::getIx(
 			const string& sref
 		) {
 	string s = StrMod::lc(sref);
@@ -83,7 +86,7 @@ uint Bufxf::VecVState::getIx(
 	return 0;
 };
 
-string Bufxf::VecVState::getSref(
+string Dbecore::Bufxf::VecVState::getSref(
 			const uint ix
 		) {
 	if (ix == VOID) return("void");
@@ -96,7 +99,7 @@ string Bufxf::VecVState::getSref(
 	return("");
 };
 
-string Bufxf::VecVState::getTitle(
+string Dbecore::Bufxf::VecVState::getTitle(
 			const uint ix
 		) {
 	if (ix == VOID) return("invalid");
@@ -113,7 +116,7 @@ string Bufxf::VecVState::getTitle(
  class Bufxf
  ******************************************************************************/
 
-Bufxf::Bufxf(
+Dbecore::Bufxf::Bufxf(
 			const utinyint tixWBuffer
 			, const bool writeNotRead
 			, const size_t reqlen
@@ -158,13 +161,13 @@ Bufxf::Bufxf(
 	argDoneCallback = NULL;
 };
 
-Bufxf::~Bufxf() {
+Dbecore::Bufxf::~Bufxf() {
 	for (unsigned int i = 0; i < cmds.size(); i++) if (cmds[i]) delete cmds[i];
 
 	if (!dataExtNotInt && data) delete[] data;
 };
 
-void Bufxf::appendReadData(
+void Dbecore::Bufxf::appendReadData(
 			const unsigned char* _data
 			, const size_t _datalen
 		) {
@@ -176,7 +179,7 @@ void Bufxf::appendReadData(
 	ptr += len;
 };
 
-unsigned char* Bufxf::getReadData() {
+unsigned char* Dbecore::Bufxf::getReadData() {
 	unsigned char* retval = NULL;
 
 	if (ptr > prelen) {
@@ -187,11 +190,11 @@ unsigned char* Bufxf::getReadData() {
 	return retval;
 };
 
-size_t Bufxf::getReadDatalen() {
+size_t Dbecore::Bufxf::getReadDatalen() {
 	return(ptr-prelen);
 };
 
-void Bufxf::setWriteData(
+void Dbecore::Bufxf::setWriteData(
 			const unsigned char* _data
 			, const size_t _datalen
 		) {
@@ -202,7 +205,7 @@ void Bufxf::setWriteData(
 	ptr = 0;
 };
 
-void Bufxf::setProgressCallback(
+void Dbecore::Bufxf::setProgressCallback(
 			bool (*_progressCallback)(Bufxf* bufxf, void* arg)
 			, void* _argProgressCallback
 		) {
@@ -210,7 +213,7 @@ void Bufxf::setProgressCallback(
 	argProgressCallback = _argProgressCallback;
 };
 
-void Bufxf::setErrorCallback(
+void Dbecore::Bufxf::setErrorCallback(
 			bool (*_errorCallback)(Bufxf* bufxf, void* arg)
 			, void* _argErrorCallback
 		) {
@@ -218,7 +221,7 @@ void Bufxf::setErrorCallback(
 	argErrorCallback = _argErrorCallback;
 };
 
-void Bufxf::setDoneCallback(
+void Dbecore::Bufxf::setDoneCallback(
 			bool (*_doneCallback)(Bufxf* bufxf, void* arg)
 			, void* _argDoneCallback
 		) {
@@ -226,21 +229,21 @@ void Bufxf::setDoneCallback(
 	argDoneCallback = _argDoneCallback;
 };
 
-void Bufxf::lockAccess(
+void Dbecore::Bufxf::lockAccess(
 			const string& srefObject
 			, const string& srefMember
 		) {
 	cProgress.lockMutex(srefObject, srefMember);
 };
 
-void Bufxf::signalProgress(
+void Dbecore::Bufxf::signalProgress(
 			const string& srefObject
 			, const string& srefMember
 		) {
 	cProgress.signal(srefObject, srefMember);
 };
 
-bool Bufxf::timedwaitProgress(
+bool Dbecore::Bufxf::timedwaitProgress(
 			const unsigned int dt
 			, const string& srefObject
 			, const string& srefMember
@@ -248,7 +251,7 @@ bool Bufxf::timedwaitProgress(
 	return cProgress.timedwait(dt, srefObject, srefMember);
 };
 
-void Bufxf::unlockAccess(
+void Dbecore::Bufxf::unlockAccess(
 			const string& srefObject
 			, const string& srefMember
 		) {

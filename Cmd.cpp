@@ -3,16 +3,20 @@
   * command functionality (implementation)
   * \author Alexander Wirthmüller
   * \date created: 3 Feb 2016
-  * \date modified: 29 Apr 2017
+  * \date modified: 22 Apr 2020
   */
 
 #include "Cmd.h"
+
+using namespace std;
+using namespace Sbecore;
+using namespace Xmlio;
 
 /******************************************************************************
  class cmdix_t
  ******************************************************************************/
 
-cmdix_t::cmdix_t(
+Dbecore::cmdix_t::cmdix_t(
 			const uint ixVTarget
 			, const utinyint tixVController
 			, const utinyint tixVCommand
@@ -22,7 +26,7 @@ cmdix_t::cmdix_t(
 	this->tixVCommand = tixVCommand;
 };
 
-bool cmdix_t::operator<(
+bool Dbecore::cmdix_t::operator<(
 			const cmdix_t& comp
 		) const {
 	if (ixVTarget < comp.ixVTarget) return true;
@@ -40,7 +44,7 @@ bool cmdix_t::operator<(
  class cmdref_t
  ******************************************************************************/
 
-cmdref_t::cmdref_t(
+Dbecore::cmdref_t::cmdref_t(
 			const uint ixVState
 			, const uint cref
 		) {
@@ -48,7 +52,7 @@ cmdref_t::cmdref_t(
 	this->cref = cref;
 };
 
-bool cmdref_t::operator<(
+bool Dbecore::cmdref_t::operator<(
 			const cmdref_t& comp
 		) const {
 	if (ixVState < comp.ixVState) return true;
@@ -62,7 +66,7 @@ bool cmdref_t::operator<(
  class cmdref2_t
  ******************************************************************************/
 
-cmdref2_t::cmdref2_t(
+Dbecore::cmdref2_t::cmdref2_t(
 			const uint ixVTarget
 			, const ubigint uref
 			, const uint cref
@@ -72,7 +76,7 @@ cmdref2_t::cmdref2_t(
 	this->cref = cref;
 };
 
-bool cmdref2_t::operator<(
+bool Dbecore::cmdref2_t::operator<(
 			const cmdref2_t& comp
 		) const {
 	if (ixVTarget < comp.ixVTarget) return true;
@@ -90,7 +94,7 @@ bool cmdref2_t::operator<(
  class Cmd::VecVRettype
  ******************************************************************************/
 
-uint Cmd::VecVRettype::getIx(
+uint Dbecore::Cmd::VecVRettype::getIx(
 			const string& sref
 		) {
 	string s = StrMod::lc(sref);
@@ -104,7 +108,7 @@ uint Cmd::VecVRettype::getIx(
 	return 0;
 };
 
-string Cmd::VecVRettype::getSref(
+string Dbecore::Cmd::VecVRettype::getSref(
 			const uint ix
 		) {
 	if (ix == VOID) return("void");
@@ -116,7 +120,7 @@ string Cmd::VecVRettype::getSref(
 	return("");
 };
 
-string Cmd::VecVRettype::getTitle(
+string Dbecore::Cmd::VecVRettype::getTitle(
 			const uint ix
 		) {
 	if (ix == VOID) return("none");
@@ -132,7 +136,7 @@ string Cmd::VecVRettype::getTitle(
  class Cmd::VecVState
  ******************************************************************************/
 
-uint Cmd::VecVState::getIx(
+uint Dbecore::Cmd::VecVState::getIx(
 			const string& sref
 		) {
 	string s = StrMod::lc(sref);
@@ -147,7 +151,7 @@ uint Cmd::VecVState::getIx(
 	return 0;
 };
 
-string Cmd::VecVState::getSref(
+string Dbecore::Cmd::VecVState::getSref(
 			const uint ix
 		) {
 	if (ix == VOID) return("void");
@@ -160,7 +164,7 @@ string Cmd::VecVState::getSref(
 	return("");
 };
 
-string Cmd::VecVState::getTitle(
+string Dbecore::Cmd::VecVState::getTitle(
 			const uint ix
 		) {
 	if (ix == VOID) return("invalid");
@@ -177,13 +181,13 @@ string Cmd::VecVState::getTitle(
  class Cmd
  ******************************************************************************/
 
-Cmd::Cmd(
+Dbecore::Cmd::Cmd(
 			const utinyint tixVCommand
 			, const uint ixVRettype
 		) : Cmd(0x00, tixVCommand, ixVRettype) {
 };
 
-Cmd::Cmd(
+Dbecore::Cmd::Cmd(
 			const utinyint tixVController
 			, const utinyint tixVCommand
 			, const uint ixVRettype
@@ -217,10 +221,10 @@ Cmd::Cmd(
 	argDoneCallback = NULL;
 };
 
-Cmd::~Cmd() {
+Dbecore::Cmd::~Cmd() {
 };
 
-void Cmd::addParInv(
+void Dbecore::Cmd::addParInv(
 			const string& sref
 			, const uint ixVType
 			, utinyint (*getTixBySref)(const string& sref)
@@ -231,7 +235,7 @@ void Cmd::addParInv(
 	parsInv.insert(pair<string,Par>(sref, Par(sref, ixVType, getTixBySref, getSrefByTix, fillFeed, buflen))); seqParsInv.push_back(sref);
 };
 
-void Cmd::addParRet(
+void Dbecore::Cmd::addParRet(
 			const string& sref
 			, const uint ixVType
 			, utinyint (*getTixBySref)(const string& sref)
@@ -242,7 +246,7 @@ void Cmd::addParRet(
 	parsRet.insert(pair<string,Par>(sref, Par(sref, ixVType, getTixBySref, getSrefByTix, fillFeed, buflen))); seqParsRet.push_back(sref);
 };
 
-void Cmd::setProgressCallback(
+void Dbecore::Cmd::setProgressCallback(
 			bool (*_progressCallback)(Cmd* cmd, void* arg)
 			, void* _argProgressCallback
 		) {
@@ -250,7 +254,7 @@ void Cmd::setProgressCallback(
 	argProgressCallback = _argProgressCallback;
 };
 
-void Cmd::setReturnCallback(
+void Dbecore::Cmd::setReturnCallback(
 			void (*_returnCallback)(Cmd* cmd, void* arg)
 			, void* _argReturnCallback
 		) {
@@ -258,7 +262,7 @@ void Cmd::setReturnCallback(
 	argReturnCallback = _argReturnCallback;
 };
 
-void Cmd::setErrorCallback(
+void Dbecore::Cmd::setErrorCallback(
 			bool (*_errorCallback)(Cmd* cmd, void* arg)
 			, void* _argErrorCallback
 		) {
@@ -266,7 +270,7 @@ void Cmd::setErrorCallback(
 	argErrorCallback = _argErrorCallback;
 };
 
-void Cmd::setDoneCallback(
+void Dbecore::Cmd::setDoneCallback(
 			bool (*_doneCallback)(Cmd* cmd, void* arg)
 			, void* _argDoneCallback
 		) {
@@ -274,32 +278,32 @@ void Cmd::setDoneCallback(
 	argDoneCallback = _argDoneCallback;
 };
 
-void Cmd::returnToCallback() {
+void Dbecore::Cmd::returnToCallback() {
 	if (returnCallback) returnCallback(this, argReturnCallback);
 };
 
-void Cmd::lockAccess(
+void Dbecore::Cmd::lockAccess(
 			const string& srefObject
 			, const string& srefMember
 		) {
 	cProgress.lockMutex(srefObject, srefMember);
 };
 
-void Cmd::signalProgress(
+void Dbecore::Cmd::signalProgress(
 			const string& srefObject
 			, const string& srefMember
 		) {
 	cProgress.signal(srefObject, srefMember);
 };
 
-void Cmd::waitProgress(
+void Dbecore::Cmd::waitProgress(
 			const string& srefObject
 			, const string& srefMember
 		) {
 	cProgress.wait(srefObject, srefMember);
 };
 
-bool Cmd::timedwaitProgress(
+bool Dbecore::Cmd::timedwaitProgress(
 			const unsigned int dt
 			, const string& srefObject
 			, const string& srefMember
@@ -307,14 +311,14 @@ bool Cmd::timedwaitProgress(
 	return cProgress.timedwait(dt, srefObject, srefMember);
 };
 
-void Cmd::unlockAccess(
+void Dbecore::Cmd::unlockAccess(
 			const string& srefObject
 			, const string& srefMember
 		) {
 	cProgress.lockMutex(srefObject, srefMember);
 };
 
-void Cmd::hexToParsInv(
+void Dbecore::Cmd::hexToParsInv(
 			const string& s
 		) {
 	// all invocation parameters will be reset and overwritten with as much data as is available in s
@@ -364,7 +368,7 @@ void Cmd::hexToParsInv(
 	if (buf) delete[] buf;
 };
 
-void Cmd::parlistToParsInv(
+void Dbecore::Cmd::parlistToParsInv(
 			const string& s
 		) {
 	// example for s: "par1=0x00ef,par2=-123,par3=false;"
@@ -450,7 +454,6 @@ void Cmd::parlistToParsInv(
 							};
 						};
 
-						
 					} else if ((par->ixVType == Par::VecVType::BLOB) || (par->ixVType == Par::VecVType::VBLOB)) {
 						// expect hex code
 						Dbe::hexToBuf(val, &buf, buflen);
@@ -476,14 +479,14 @@ void Cmd::parlistToParsInv(
 	};
 };
 
-void Cmd::parsInvToBuf(
+void Dbecore::Cmd::parsInvToBuf(
 			unsigned char** buf
 			, size_t& buflen
 		) {
 	Par::parsToBuf(parsInv, seqParsInv, buf, buflen);
 };
 
-size_t Cmd::getInvBuflen() {
+size_t Dbecore::Cmd::getInvBuflen() {
 	size_t buflen = 0;
 
 	for (auto it = parsInv.begin(); it != parsInv.end(); it++) buflen += it->second.buflen;
@@ -491,7 +494,7 @@ size_t Cmd::getInvBuflen() {
 	return buflen;
 };
 
-string Cmd::parsInvToTemplate() {
+string Dbecore::Cmd::parsInvToTemplate() {
 	string retval;
 
 	Par* par = NULL;
@@ -536,14 +539,14 @@ string Cmd::parsInvToTemplate() {
 	return retval;
 };
 
-string Cmd::getInvText(
+string Dbecore::Cmd::getInvText(
 			const bool truncate
 			, bool* truncated
 		) {
 	return Par::parsToText(parsInv, seqParsInv, truncate, truncated);
 };
 
-string Cmd::getInvHex(
+string Dbecore::Cmd::getInvHex(
 			const bool truncate
 			, bool* truncated
 		) {
@@ -564,11 +567,11 @@ string Cmd::getInvHex(
 	return hex;
 };
 
-void Cmd::resetParsRet() {
+void Dbecore::Cmd::resetParsRet() {
 	for (auto it = parsRet.begin(); it != parsRet.end(); it++) it->second.reset();
 };
 
-void Cmd::bufToParsRet(
+void Dbecore::Cmd::bufToParsRet(
 			const unsigned char* buf
 			, const size_t buflen
 		) {
@@ -612,14 +615,14 @@ void Cmd::bufToParsRet(
 	};
 };
 
-void Cmd::parsRetToBuf(
+void Dbecore::Cmd::parsRetToBuf(
 			unsigned char** buf
 			, size_t& buflen
 		) {
 	Par::parsToBuf(parsRet, seqParsRet, buf, buflen);
 };
 
-size_t Cmd::getRetBuflen() {
+size_t Dbecore::Cmd::getRetBuflen() {
 	size_t buflen = 0;
 
 	for (auto it = parsRet.begin(); it != parsRet.end(); it++) buflen += it->second.buflen;
@@ -627,14 +630,14 @@ size_t Cmd::getRetBuflen() {
 	return buflen;
 };
 
-string Cmd::getRetText(
+string Dbecore::Cmd::getRetText(
 			const bool truncate
 			, bool* truncated
 		) {
 	return Par::parsToText(parsRet, seqParsRet, truncate, truncated);
 };
 
-string Cmd::getRetHex(
+string Dbecore::Cmd::getRetHex(
 			const bool truncate
 			, bool* truncated
 		) {

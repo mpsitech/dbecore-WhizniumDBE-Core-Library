@@ -3,16 +3,19 @@
   * reset functionality (implementation)
   * \author Alexander Wirthmüller
   * \date created: 29 Apr 2017
-  * \date modified: 29 Apr 2017
+  * \date modified: 22 Apr 2020
   */
 
 #include "Rst.h"
+
+using namespace std;
+using namespace Sbecore;
 
 /******************************************************************************
  class rstref_t
  ******************************************************************************/
 
-rstref_t::rstref_t(
+Dbecore::rstref_t::rstref_t(
 			const uint ixVState
 			, const ubigint rref
 		) {
@@ -20,7 +23,7 @@ rstref_t::rstref_t(
 	this->rref = rref;
 };
 
-bool rstref_t::operator<(
+bool Dbecore::rstref_t::operator<(
 			const rstref_t& comp
 		) const {
 	if (ixVState < comp.ixVState) return true;
@@ -34,7 +37,7 @@ bool rstref_t::operator<(
  class rstref2_t
  ******************************************************************************/
 
-rstref2_t::rstref2_t(
+Dbecore::rstref2_t::rstref2_t(
 			const uint ixVTarget
 			, const ubigint uref
 			, const ubigint rref
@@ -44,7 +47,7 @@ rstref2_t::rstref2_t(
 	this->rref = rref;
 };
 
-bool rstref2_t::operator<(
+bool Dbecore::rstref2_t::operator<(
 			const rstref2_t& comp
 		) const {
 	if (ixVTarget < comp.ixVTarget) return true;
@@ -62,7 +65,7 @@ bool rstref2_t::operator<(
  class Rst::VecVState
  ******************************************************************************/
 
-uint Rst::VecVState::getIx(
+uint Dbecore::Rst::VecVState::getIx(
 			const string& sref
 		) {
 	string s = StrMod::lc(sref);
@@ -76,7 +79,7 @@ uint Rst::VecVState::getIx(
 	return 0;
 };
 
-string Rst::VecVState::getSref(
+string Dbecore::Rst::VecVState::getSref(
 			const uint ix
 		) {
 	if (ix == VOID) return("void");
@@ -88,7 +91,7 @@ string Rst::VecVState::getSref(
 	return("");
 };
 
-string Rst::VecVState::getTitle(
+string Dbecore::Rst::VecVState::getTitle(
 			const uint ix
 		) {
 	if (ix == VOID) return("invalid");
@@ -104,7 +107,7 @@ string Rst::VecVState::getTitle(
  class Rst
  ******************************************************************************/
 
-Rst::Rst(
+Dbecore::Rst::Rst(
 			const uint ixVTarget
 			, const ubigint uref
 		) :
@@ -122,11 +125,11 @@ Rst::Rst(
 	argProgressCallback = NULL;
 };
 
-Rst::~Rst() {
+Dbecore::Rst::~Rst() {
 	if (cmd) delete cmd;
 };
 
-void Rst::setProgressCallback(
+void Dbecore::Rst::setProgressCallback(
 			bool (*_progressCallback)(Rst* rst, void* arg)
 			, void* _argProgressCallback
 		) {
@@ -134,21 +137,21 @@ void Rst::setProgressCallback(
 	argProgressCallback = _argProgressCallback;
 };
 
-void Rst::lockAccess(
+void Dbecore::Rst::lockAccess(
 			const string& srefObject
 			, const string& srefMember
 		) {
 	cProgress.lockMutex(srefObject, srefMember);
 };
 
-void Rst::signalProgress(
+void Dbecore::Rst::signalProgress(
 			const string& srefObject
 			, const string& srefMember
 		) {
 	cProgress.signal(srefObject, srefMember);
 };
 
-bool Rst::timedwaitProgress(
+bool Dbecore::Rst::timedwaitProgress(
 			const unsigned int dt
 			, const string& srefObject
 			, const string& srefMember
@@ -156,7 +159,7 @@ bool Rst::timedwaitProgress(
 	return cProgress.timedwait(dt, srefObject, srefMember);
 };
 
-void Rst::unlockAccess(
+void Dbecore::Rst::unlockAccess(
 			const string& srefObject
 			, const string& srefMember
 		) {

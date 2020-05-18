@@ -3,7 +3,7 @@
   * error functionality (declarations)
   * \author Alexander Wirthmüller
   * \date created: 21 Apr 2017
-  * \date modified: 4 May 2017
+  * \date modified: 30 Apr 2020
   */
 
 #ifndef DBECORE_ERR_H
@@ -11,42 +11,43 @@
 
 #include <dbecore/Par.h>
 
-/**
-  * Err
-  */
-class Err {
+namespace Dbecore {
+	/**
+		* Err
+		*/
+	class Err {
 
-public:
-	Err(const utinyint tixDbeVAction = VecDbeVAction::ERR, const utinyint tixVError = 0x00);
-	virtual ~Err();
+	public:
+		Err(const Sbecore::utinyint tixDbeVAction = VecDbeVAction::ERR, const Sbecore::utinyint tixVError = 0x00);
+		virtual ~Err();
 
-public:
-	utinyint tixDbeVAction;
-	utinyint tixVError;
+	public:
+		Sbecore::utinyint tixDbeVAction;
+		Sbecore::utinyint tixVError;
 
-	map<string,Par> pars;
-	vector<string> seqPars;
+		std::map<std::string,Par> pars;
+		std::vector<std::string> seqPars;
 
-public:
-	void addPar(const string& sref, const uint ixVType, utinyint (*getTixBySref)(const string& sref) = NULL, string (*getSrefByTix)(const utinyint tix) = NULL, void (*fillFeed)(Feed& feed) = NULL, size_t buflen = 0);
+	public:
+		void addPar(const std::string& sref, const Sbecore::uint ixVType, Sbecore::utinyint (*getTixBySref)(const std::string& sref) = NULL, std::string (*getSrefByTix)(const Sbecore::utinyint tix) = NULL, void (*fillFeed)(Sbecore::Xmlio::Feed& feed) = NULL, size_t buflen = 0);
 
-	void bufToPars(const unsigned char* buf, const size_t buflen);
+		void bufToPars(const unsigned char* buf, const size_t buflen);
 
-	void parsToBuf(unsigned char** buf, size_t& buflen);
+		void parsToBuf(unsigned char** buf, size_t& buflen);
 
-	size_t getBuflen();
-	string getParText(const bool truncate = false, bool* truncated = NULL);
-	string getParHex(const bool truncate = false, bool* truncated = NULL);
+		size_t getBuflen();
+		std::string getParText(const bool truncate = false, bool* truncated = NULL);
+		std::string getParHex(const bool truncate = false, bool* truncated = NULL);
 
-	string getMessage(const string& srefCtr, const string& srefCmd, const uint cref, const string& srefErr, const string& titErr, const bool cmdNotErronly, const bool titleNotSref);
+		std::string getMessage(const std::string& srefCtr, const std::string& srefCmd, const Sbecore::uint cref, const std::string& srefErr, const std::string& titErr, const bool cmdNotErronly, const bool titleNotSref);
 
-public:
-	static Err getNewRteerr();
-	static Err getNewCreferr();
-	static Err getNewFwderr();
-	static Err getNewCmderr();
-	static Err getNewToerr();
-	static Err getNewRsterr();
+	public:
+		static Err getNewRteerr();
+		static Err getNewCreferr();
+		static Err getNewFwderr();
+		static Err getNewCmderr();
+		static Err getNewToerr();
+		static Err getNewRsterr();
+	};
 };
-
 #endif

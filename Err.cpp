@@ -3,16 +3,20 @@
   * error functionality (implementation)
   * \author Alexander Wirthmüller
   * \date created: 29 Apr 2017
-  * \date modified: 4 May 2017
+  * \date modified: 22 Apr 2020
   */
 
 #include "Err.h"
+
+using namespace std;
+using namespace Sbecore;
+using namespace Xmlio;
 
 /******************************************************************************
  class Err
  ******************************************************************************/
 
-Err::Err(
+Dbecore::Err::Err(
 			const utinyint tixDbeVAction
 			, const utinyint tixVError
 		) {
@@ -20,10 +24,10 @@ Err::Err(
 	this->tixVError = tixVError;
 };
 
-Err::~Err() {
+Dbecore::Err::~Err() {
 };
 
-void Err::addPar(
+void Dbecore::Err::addPar(
 			const string& sref
 			, const uint ixVType
 			, utinyint (*getTixBySref)(const string& sref)
@@ -34,7 +38,7 @@ void Err::addPar(
 	pars.insert(pair<string,Par>(sref, Par(sref, ixVType, getTixBySref, getSrefByTix, fillFeed, buflen))); seqPars.push_back(sref);
 };
 
-void Err::bufToPars(
+void Dbecore::Err::bufToPars(
 			const unsigned char* buf
 			, const size_t buflen
 		) {
@@ -78,14 +82,14 @@ void Err::bufToPars(
 	};
 };
 
-void Err::parsToBuf(
+void Dbecore::Err::parsToBuf(
 			unsigned char** buf
 			, size_t& buflen
 		) {
 	Par::parsToBuf(pars, seqPars, buf, buflen);
 };
 
-size_t Err::getBuflen() {
+size_t Dbecore::Err::getBuflen() {
 	size_t buflen = 0;
 
 	for (auto it = pars.begin(); it != pars.end(); it++) buflen += it->second.buflen;
@@ -93,14 +97,14 @@ size_t Err::getBuflen() {
 	return buflen;
 };
 
-string Err::getParText(
+string Dbecore::Err::getParText(
 			const bool truncate
 			, bool* truncated
 		) {
 	return Par::parsToText(pars, seqPars, truncate, truncated);
 };
 
-string Err::getParHex(
+string Dbecore::Err::getParHex(
 			const bool truncate
 			, bool* truncated
 		) {
@@ -121,7 +125,7 @@ string Err::getParHex(
 	return hex;
 };
 
-string Err::getMessage(
+string Dbecore::Err::getMessage(
 			const string& srefCtr
 			, const string& srefCmd
 			, const uint cref
@@ -180,15 +184,15 @@ string Err::getMessage(
 	return msg;
 };
 
-Err Err::getNewRteerr() {
+Dbecore::Err Dbecore::Err::getNewRteerr() {
 	return Err(VecDbeVAction::RTEERR);
 };
 
-Err Err::getNewCreferr() {
+Dbecore::Err Dbecore::Err::getNewCreferr() {
 	return Err(VecDbeVAction::CREFERR);
 };
 
-Err Err::getNewFwderr() {
+Dbecore::Err Dbecore::Err::getNewFwderr() {
 	Err err(VecDbeVAction::FWDERR);
 
 	err.addPar("routeLocn", Par::VecVType::BLOB, NULL, NULL, NULL, 4);
@@ -196,14 +200,14 @@ Err Err::getNewFwderr() {
 	return err;
 };
 
-Err Err::getNewCmderr() {
+Dbecore::Err Dbecore::Err::getNewCmderr() {
 	return Err(VecDbeVAction::CMDERR);
 };
 
-Err Err::getNewToerr() {
+Dbecore::Err Dbecore::Err::getNewToerr() {
 	return Err(VecDbeVAction::TOERR);
 };
 
-Err Err::getNewRsterr() {
+Dbecore::Err Dbecore::Err::getNewRsterr() {
 	return Err(VecDbeVAction::RSTERR);
 };

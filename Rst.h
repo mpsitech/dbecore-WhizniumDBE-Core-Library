@@ -3,7 +3,7 @@
   * reset functionality (declarations)
   * \author Alexander Wirthmüller
   * \date created: 21 Apr 2017
-  * \date modified: 29 Apr 2017
+  * \date modified: 30 Apr 2020
   */
 
 #ifndef DBECORE_RST_H
@@ -11,91 +11,92 @@
 
 #include <dbecore/Cmd.h>
 
-/**
-  * rstref_t
-  */
-class rstref_t {
-
-public:
-	rstref_t(const uint ixVState = 0, const ubigint rref = 0);
-
-public:
-	uint ixVState;
-	ubigint rref;
-
-public:
-	bool operator<(const rstref_t& comp) const;
-};
-
-/**
-  * rstref2_t
-  */
-class rstref2_t {
-
-public:
-	rstref2_t(const uint ixVTarget = 0, const ubigint uref = 0, const ubigint rref = 0);
-
-public:
-	uint ixVTarget;
-	ubigint uref;
-	ubigint rref;
-
-public:
-	bool operator<(const rstref2_t& comp) const;
-};
-
-/**
-	* Rst
-	*/
-class Rst {
-
-public:
+namespace Dbecore {
 	/**
-		* VecVState
+		* rstref_t
 		*/
-	class VecVState {
+	class rstref_t {
 
 	public:
-		static const uint VOID = 0;
-		static const uint WAITPREP = 1;
-		static const uint WAITINV = 2;
-		static const uint WAITRST = 3;
-		static const uint DONE = 4;
+		rstref_t(const Sbecore::uint ixVState = 0, const Sbecore::ubigint rref = 0);
 
-		static uint getIx(const string& sref);
-		static string getSref(const uint ix);
-		static string getTitle(const uint ix);
+	public:
+		Sbecore::uint ixVState;
+		Sbecore::ubigint rref;
+
+	public:
+		bool operator<(const rstref_t& comp) const;
 	};
 
-public:
-	Rst(const uint ixVTarget = 0, const ubigint uref = 0);
-	~Rst();
+	/**
+		* rstref2_t
+		*/
+	class rstref2_t {
 
-public:
-	uint ixVTarget;
-	ubigint uref;
+	public:
+		rstref2_t(const Sbecore::uint ixVTarget = 0, const Sbecore::ubigint uref = 0, const Sbecore::ubigint rref = 0);
 
-	uint ixVState;
+	public:
+		Sbecore::uint ixVTarget;
+		Sbecore::ubigint uref;
+		Sbecore::ubigint rref;
 
-	ubigint rref;
+	public:
+		bool operator<(const rstref2_t& comp) const;
+	};
 
-	bool root;
-	Cmd* cmd;
+	/**
+		* Rst
+		*/
+	class Rst {
 
-	set<uint> subIcsVTarget;
+	public:
+		/**
+			* VecVState
+			*/
+		class VecVState {
 
-	Cond cProgress;
+		public:
+			static const Sbecore::uint VOID = 0;
+			static const Sbecore::uint WAITPREP = 1;
+			static const Sbecore::uint WAITINV = 2;
+			static const Sbecore::uint WAITRST = 3;
+			static const Sbecore::uint DONE = 4;
 
-	bool (*progressCallback)(Rst* rst, void* arg);
-	void* argProgressCallback;
+			static Sbecore::uint getIx(const std::string& sref);
+			static std::string getSref(const Sbecore::uint ix);
+			static std::string getTitle(const Sbecore::uint ix);
+		};
 
-public:
-	void setProgressCallback(bool (*_progressCallback)(Rst* rst, void* arg), void* _argProgressCallback);
+	public:
+		Rst(const Sbecore::uint ixVTarget = 0, const Sbecore::ubigint uref = 0);
+		~Rst();
 
-	void lockAccess(const string& srefObject, const string& srefMember);
-	void signalProgress(const string& srefObject, const string& srefMember);
-	bool timedwaitProgress(const unsigned int dt, const string& srefObject, const string& srefMember);
-	void unlockAccess(const string& srefObject, const string& srefMember);
+	public:
+		Sbecore::uint ixVTarget;
+		Sbecore::ubigint uref;
+
+		Sbecore::uint ixVState;
+
+		Sbecore::ubigint rref;
+
+		bool root;
+		Cmd* cmd;
+
+		std::set<Sbecore::uint> subIcsVTarget;
+
+		Sbecore::Cond cProgress;
+
+		bool (*progressCallback)(Rst* rst, void* arg);
+		void* argProgressCallback;
+
+	public:
+		void setProgressCallback(bool (*_progressCallback)(Rst* rst, void* arg), void* _argProgressCallback);
+
+		void lockAccess(const std::string& srefObject, const std::string& srefMember);
+		void signalProgress(const std::string& srefObject, const std::string& srefMember);
+		bool timedwaitProgress(const unsigned int dt, const std::string& srefObject, const std::string& srefMember);
+		void unlockAccess(const std::string& srefObject, const std::string& srefMember);
+	};
 };
-
 #endif

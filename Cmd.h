@@ -3,7 +3,7 @@
   * command functionality (declarations)
   * \author Alexander Wirthmüller
   * \date created: 3 Feb 2016
-  * \date modified: 29 Apr 2017
+  * \date modified: 30 Apr 2020
   */
 
 #ifndef DBECORE_CMD_H
@@ -11,177 +11,178 @@
 
 #include <dbecore/Err.h>
 
-/**
-  * cmdix_t
-  */
-class cmdix_t {
-
-public:
-	cmdix_t(const uint ixVTarget = 0, const utinyint tixVController = 0, const utinyint tixVCommand = 0);
-
-public:
-	uint ixVTarget;
-	utinyint tixVController;
-	utinyint tixVCommand;
-
-public:
-	bool operator<(const cmdix_t& comp) const;
-};
-
-/**
-  * cmdref_t
-  */
-class cmdref_t {
-
-public:
-	cmdref_t(const uint ixVState = 0, const uint cref = 0);
-
-public:
-	uint ixVState;
-	uint cref;
-
-public:
-	bool operator<(const cmdref_t& comp) const;
-};
-
-/**
-  * cmdref2_t
-  */
-class cmdref2_t {
-
-public:
-	cmdref2_t(const uint ixVTarget = 0, const ubigint uref = 0, const uint cref = 0);
-
-public:
-	uint ixVTarget;
-	ubigint uref;
-	uint cref;
-
-public:
-	bool operator<(const cmdref2_t& comp) const;
-};
-
-/**
-	* Cmd
-	*/
-class Cmd {
-
-public:
+namespace Dbecore {
 	/**
-		* VecVRettype
+		* cmdix_t
 		*/
-	class VecVRettype {
+	class cmdix_t {
 
 	public:
-		static const uint VOID = 1;
-		static const uint STATSNG = 2;
-		static const uint IMMSNG = 3;
-		static const uint DFRSNG = 4;
-		static const uint MULT = 5;
+		cmdix_t(const Sbecore::uint ixVTarget = 0, const Sbecore::utinyint tixVController = 0, const Sbecore::utinyint tixVCommand = 0);
 
-		static uint getIx(const string& sref);
-		static string getSref(const uint ix);
-		static string getTitle(const uint ix);
+	public:
+		Sbecore::uint ixVTarget;
+		Sbecore::utinyint tixVController;
+		Sbecore::utinyint tixVCommand;
+
+	public:
+		bool operator<(const cmdix_t& comp) const;
 	};
 
 	/**
-		* VecVState
+		* cmdref_t
 		*/
-	class VecVState {
+	class cmdref_t {
 
 	public:
-		static const uint VOID = 0;
-		static const uint WAITINV = 1;
-		static const uint WAITREV = 2;
-		static const uint WAITRET = 3;
-		static const uint WAITNEWRET = 4;
-		static const uint DONE = 5;
+		cmdref_t(const Sbecore::uint ixVState = 0, const Sbecore::uint cref = 0);
 
-		static uint getIx(const string& sref);
-		static string getSref(const uint ix);
-		static string getTitle(const uint ix);
+	public:
+		Sbecore::uint ixVState;
+		Sbecore::uint cref;
+
+	public:
+		bool operator<(const cmdref_t& comp) const;
 	};
 
-public:
-	Cmd(const utinyint tixVCommand, const uint ixVRettype);
-	Cmd(const utinyint tixVController, const utinyint tixVCommand, const uint ixVRettype);
-	virtual ~Cmd();
+	/**
+		* cmdref2_t
+		*/
+	class cmdref2_t {
 
-public:
-	utinyint tixVController;
-	utinyint tixVCommand;
+	public:
+		cmdref2_t(const Sbecore::uint ixVTarget = 0, const Sbecore::ubigint uref = 0, const Sbecore::uint cref = 0);
 
-	uint ixVRettype;
+	public:
+		Sbecore::uint ixVTarget;
+		Sbecore::ubigint uref;
+		Sbecore::uint cref;
 
-	uint ixVTarget;
-	ubigint uref;
+	public:
+		bool operator<(const cmdref2_t& comp) const;
+	};
 
-	uint ixVState;
+	/**
+		* Cmd
+		*/
+	class Cmd {
 
-	uint cref;
+	public:
+		/**
+			* VecVRettype
+			*/
+		class VecVRettype {
 
-	map<string,Par> parsInv;
-	vector<string> seqParsInv;
+		public:
+			static const Sbecore::uint VOID = 1;
+			static const Sbecore::uint STATSNG = 2;
+			static const Sbecore::uint IMMSNG = 3;
+			static const Sbecore::uint DFRSNG = 4;
+			static const Sbecore::uint MULT = 5;
 
-	Err err;
+			static Sbecore::uint getIx(const std::string& sref);
+			static std::string getSref(const Sbecore::uint ix);
+			static std::string getTitle(const Sbecore::uint ix);
+		};
 
-	unsigned int Nret;
+		/**
+			* VecVState
+			*/
+		class VecVState {
 
-	map<string,Par> parsRet;
-	vector<string> seqParsRet;
+		public:
+			static const Sbecore::uint VOID = 0;
+			static const Sbecore::uint WAITINV = 1;
+			static const Sbecore::uint WAITREV = 2;
+			static const Sbecore::uint WAITRET = 3;
+			static const Sbecore::uint WAITNEWRET = 4;
+			static const Sbecore::uint DONE = 5;
 
-	Cond cProgress;
+			static Sbecore::uint getIx(const std::string& sref);
+			static std::string getSref(const Sbecore::uint ix);
+			static std::string getTitle(const Sbecore::uint ix);
+		};
 
-	bool (*progressCallback)(Cmd* cmd, void* arg);
-	void* argProgressCallback;
+	public:
+		Cmd(const Sbecore::utinyint tixVCommand, const Sbecore::uint ixVRettype);
+		Cmd(const Sbecore::utinyint tixVController, const Sbecore::utinyint tixVCommand, const Sbecore::uint ixVRettype);
+		virtual ~Cmd();
 
-	void (*returnCallback)(Cmd* cmd, void* arg);
-	void* argReturnCallback;
+	public:
+		Sbecore::utinyint tixVController;
+		Sbecore::utinyint tixVCommand;
 
-	// returnSpeccallback is specific for each subclass
+		Sbecore::uint ixVRettype;
 
-	bool (*errorCallback)(Cmd* cmd, void* arg);
-	void* argErrorCallback;
+		Sbecore::uint ixVTarget;
+		Sbecore::ubigint uref;
 
-	bool (*doneCallback)(Cmd* cmd, void* arg);
-	void* argDoneCallback;
+		Sbecore::uint ixVState;
 
-public:
-	void addParInv(const string& sref, const uint ixVType, utinyint (*getTixBySref)(const string& sref) = NULL, string (*getSrefByTix)(const utinyint tix) = NULL, void (*fillFeed)(Feed& feed) = NULL, size_t buflen = 0);
-	void addParRet(const string& sref, const uint ixVType, utinyint (*getTixBySref)(const string& sref) = NULL, string (*getSrefByTix)(const utinyint tix) = NULL, void (*fillFeed)(Feed& feed) = NULL, size_t buflen = 0);
+		Sbecore::uint cref;
 
-	void setProgressCallback(bool (*_progressCallback)(Cmd* cmd, void* arg), void* _argProgressCallback);
-	void setReturnCallback(void (*_returnCallback)(Cmd* cmd, void* arg), void* _argReturnCallback);
-	void setErrorCallback(bool (*_errorCallback)(Cmd* cmd, void* arg), void* _argErrorCallback);
-	void setDoneCallback(bool (*_doneCallback)(Cmd* cmd, void* arg), void* _argDoneCallback);
+		std::map<std::string,Par> parsInv;
+		std::vector<std::string> seqParsInv;
 
-	virtual void returnToCallback();
+		Err err;
 
-	void lockAccess(const string& srefObject, const string& srefMember);
-	void signalProgress(const string& srefObject, const string& srefMember);
-	void waitProgress(const string& srefObject, const string& srefMember);
-	bool timedwaitProgress(const unsigned int dt, const string& srefObject, const string& srefMember);
-	void unlockAccess(const string& srefObject, const string& srefMember);
+		unsigned int Nret;
 
-	void hexToParsInv(const string& s);
-	void parlistToParsInv(const string& s);
+		std::map<std::string,Par> parsRet;
+		std::vector<std::string> seqParsRet;
 
-	void parsInvToBuf(unsigned char** buf, size_t& buflen);
-	string parsInvToTemplate();
+		Sbecore::Cond cProgress;
 
-	size_t getInvBuflen();
-	string getInvText(const bool truncate = false, bool* truncated = NULL);
-	string getInvHex(const bool truncate = false, bool* truncated = NULL);
+		bool (*progressCallback)(Cmd* cmd, void* arg);
+		void* argProgressCallback;
 
-	void resetParsRet();
+		void (*returnCallback)(Cmd* cmd, void* arg);
+		void* argReturnCallback;
 
-	void bufToParsRet(const unsigned char* buf, const size_t buflen);
+		// returnSpeccallback is specific for each subclass
 
-	void parsRetToBuf(unsigned char** buf, size_t& buflen);
+		bool (*errorCallback)(Cmd* cmd, void* arg);
+		void* argErrorCallback;
 
-	size_t getRetBuflen();
-	string getRetText(const bool truncate = false, bool* truncated = NULL);
-	string getRetHex(const bool truncate = false, bool* truncated = NULL);
+		bool (*doneCallback)(Cmd* cmd, void* arg);
+		void* argDoneCallback;
+
+	public:
+		void addParInv(const std::string& sref, const Sbecore::uint ixVType, Sbecore::utinyint (*getTixBySref)(const std::string& sref) = NULL, std::string (*getSrefByTix)(const Sbecore::utinyint tix) = NULL, void (*fillFeed)(Sbecore::Xmlio::Feed& feed) = NULL, size_t buflen = 0);
+		void addParRet(const std::string& sref, const Sbecore::uint ixVType, Sbecore::utinyint (*getTixBySref)(const std::string& sref) = NULL, std::string (*getSrefByTix)(const Sbecore::utinyint tix) = NULL, void (*fillFeed)(Sbecore::Xmlio::Feed& feed) = NULL, size_t buflen = 0);
+
+		void setProgressCallback(bool (*_progressCallback)(Cmd* cmd, void* arg), void* _argProgressCallback);
+		void setReturnCallback(void (*_returnCallback)(Cmd* cmd, void* arg), void* _argReturnCallback);
+		void setErrorCallback(bool (*_errorCallback)(Cmd* cmd, void* arg), void* _argErrorCallback);
+		void setDoneCallback(bool (*_doneCallback)(Cmd* cmd, void* arg), void* _argDoneCallback);
+
+		virtual void returnToCallback();
+
+		void lockAccess(const std::string& srefObject, const std::string& srefMember);
+		void signalProgress(const std::string& srefObject, const std::string& srefMember);
+		void waitProgress(const std::string& srefObject, const std::string& srefMember);
+		bool timedwaitProgress(const unsigned int dt, const std::string& srefObject, const std::string& srefMember);
+		void unlockAccess(const std::string& srefObject, const std::string& srefMember);
+
+		void hexToParsInv(const std::string& s);
+		void parlistToParsInv(const std::string& s);
+
+		void parsInvToBuf(unsigned char** buf, size_t& buflen);
+		std::string parsInvToTemplate();
+
+		size_t getInvBuflen();
+		std::string getInvText(const bool truncate = false, bool* truncated = NULL);
+		std::string getInvHex(const bool truncate = false, bool* truncated = NULL);
+
+		void resetParsRet();
+
+		void bufToParsRet(const unsigned char* buf, const size_t buflen);
+
+		void parsRetToBuf(unsigned char** buf, size_t& buflen);
+
+		size_t getRetBuflen();
+		std::string getRetText(const bool truncate = false, bool* truncated = NULL);
+		std::string getRetHex(const bool truncate = false, bool* truncated = NULL);
+	};
 };
-
 #endif

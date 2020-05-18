@@ -3,7 +3,7 @@
   * CRC-16 functionality (implementation)
   * \author Alexander Wirthmüller
   * \date created: 5 Dec 2016
-  * \date modified: 5 Dec 2016
+  * \date modified: 22 Apr 2020
   */
 
 #include "Crc.h"
@@ -12,7 +12,7 @@
  class Crc
  ******************************************************************************/
 
-Crc::Crc(
+Dbecore::Crc::Crc(
 			const unsigned short crcpoly
 			, const bool bitinv
 		) {
@@ -22,11 +22,11 @@ Crc::Crc(
 	crc = 0;
 };
 
-void Crc::reset() {
+void Dbecore::Crc::reset() {
 	crc = 0;
 };
 
-void Crc::includeByte(
+void Dbecore::Crc::includeByte(
 			const unsigned char b
 		) {
 	unsigned short newcrc;
@@ -51,14 +51,14 @@ void Crc::includeByte(
 	};
 };
 
-void Crc::includeBytes(
+void Dbecore::Crc::includeBytes(
 			const unsigned char* buf
 			, const size_t buflen
 		) {
 	for (unsigned int i = 0; i < buflen; i++) includeByte(buf[i]);
 };
 
-void Crc::finalize() {
+void Dbecore::Crc::finalize() {
 	unsigned short parity;
 	unsigned short newcrc;
 

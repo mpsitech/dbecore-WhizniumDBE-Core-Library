@@ -3,16 +3,20 @@
   * parameter functionality (implementation)
   * \author Alexander Wirthmüller
   * \date created: 29 Apr 2017
-  * \date modified: 29 Apr 2017
+  * \date modified: 22 Apr 2020
   */
 
 #include "Par.h"
+
+using namespace std;
+using namespace Sbecore;
+using namespace Xmlio;
 
 /******************************************************************************
  class Par::VecVType
  ******************************************************************************/
 
-uint Par::VecVType::getIx(
+uint Dbecore::Par::VecVType::getIx(
 			const string& sref
 		) {
 	string s = StrMod::lc(sref);
@@ -31,7 +35,7 @@ uint Par::VecVType::getIx(
 	return 0;
 };
 
-string Par::VecVType::getSref(
+string Dbecore::Par::VecVType::getSref(
 			const uint ix
 		) {
 	if (ix == TIX) return("tix");
@@ -52,7 +56,7 @@ string Par::VecVType::getSref(
  class Par
  ******************************************************************************/
 
-Par::Par(
+Dbecore::Par::Par(
 			const string& sref
 			, const uint ixVType
 			, utinyint (*getTixBySref)(const string& sref)
@@ -101,17 +105,17 @@ Par::Par(
 	};
 };
 
-Par::Par(
+Dbecore::Par::Par(
 			const Par& src
 		) {
 	*this = src;
 };
 
-Par::~Par() {
+Dbecore::Par::~Par() {
 	if (buf) delete[] buf;
 };
 
-Par& Par::operator=(
+Dbecore::Par& Dbecore::Par::operator=(
 			const Par& src
 		) {
 	sref = src.sref;
@@ -134,7 +138,7 @@ Par& Par::operator=(
 	return(*this);
 };
 
-void Par::reset() {
+void Dbecore::Par::reset() {
 	if (buf) {
 		if (ixVType == VecVType::VBLOB) {
 			delete[] buf;
@@ -147,48 +151,48 @@ void Par::reset() {
 	};
 };
 
-void Par::setTix(
+void Dbecore::Par::setTix(
 			const utinyint tix
 		) {
 	*buf = tix;
 };
 
-utinyint Par::getTix() {
+utinyint Dbecore::Par::getTix() {
 	return *buf;
 };
 
-void Par::setBool(
+void Dbecore::Par::setBool(
 			const bool b
 		) {
 	if (b) *buf = 0x55;
 	else *buf = 0xAA;
 };
 
-bool Par::getBool() {
+bool Dbecore::Par::getBool() {
 	return(*buf == 0x55);
 };
 
-void Par::setTinyint(
+void Dbecore::Par::setTinyint(
 			const tinyint i
 		) {
 	*buf = i;
 };
 
-tinyint Par::getTinyint() {
+tinyint Dbecore::Par::getTinyint() {
 	return *buf;
 };
 
-void Par::setUtinyint(
+void Dbecore::Par::setUtinyint(
 			const utinyint i
 		) {
 	*buf = i;
 };
 
-utinyint Par::getUtinyint() {
+utinyint Dbecore::Par::getUtinyint() {
 	return *buf;
 };
 
-void Par::setSmallint(
+void Dbecore::Par::setSmallint(
 			smallint i
 		) {
 	unsigned char* ptr = (unsigned char*) &i;
@@ -202,7 +206,7 @@ void Par::setSmallint(
 	};
 };
 
-smallint Par::getSmallint() {
+smallint Dbecore::Par::getSmallint() {
 	smallint retval;
 
 	if (Dbe::bigendian()) {
@@ -216,7 +220,7 @@ smallint Par::getSmallint() {
 	return retval;
 };
 
-void Par::setUsmallint(
+void Dbecore::Par::setUsmallint(
 			usmallint i
 		) {
 	unsigned char* ptr = (unsigned char*) &i;
@@ -230,7 +234,7 @@ void Par::setUsmallint(
 	};
 };
 
-usmallint Par::getUsmallint() {
+usmallint Dbecore::Par::getUsmallint() {
 	usmallint retval;
 
 	retval = (buf[0] << 8) + buf[1];
@@ -238,7 +242,7 @@ usmallint Par::getUsmallint() {
 	return retval;
 };
 
-void Par::setInt(
+void Dbecore::Par::setInt(
 			int i
 		) {
 	unsigned char* ptr = (unsigned char*) &i;
@@ -256,7 +260,7 @@ void Par::setInt(
 	};
 };
 
-int Par::getInt() {
+int Dbecore::Par::getInt() {
 	int retval;
 
 	if (Dbe::bigendian()) {
@@ -274,7 +278,7 @@ int Par::getInt() {
 	return retval;
 };
 
-void Par::setUint(
+void Dbecore::Par::setUint(
 			uint i
 		) {
 	unsigned char* ptr = (unsigned char*) &i;
@@ -292,7 +296,7 @@ void Par::setUint(
 	};
 };
 
-uint Par::getUint() {
+uint Dbecore::Par::getUint() {
 	uint retval;
 
 	retval = (buf[0] << 24) + (buf[1] << 16) + (buf[2] << 8) + buf[3];
@@ -301,7 +305,7 @@ uint Par::getUint() {
 };
 
 // all BLOB/VBLOB functions generate copies
-void Par::setBlob(
+void Dbecore::Par::setBlob(
 			const unsigned char* x
 			, const size_t xlen
 		) {
@@ -312,7 +316,7 @@ void Par::setBlob(
 	};
 };
 
-unsigned char* Par::getBlob() {
+unsigned char* Dbecore::Par::getBlob() {
 	unsigned char* retval = NULL;
 
 	if (buflen > 0) {
@@ -323,7 +327,7 @@ unsigned char* Par::getBlob() {
 	return retval;
 };
 
-void Par::setVblob(
+void Dbecore::Par::setVblob(
 			const unsigned char* x
 			, const size_t xlen
 		) {
@@ -341,7 +345,7 @@ void Par::setVblob(
 	};
 };
 
-unsigned char* Par::getVblob() {
+unsigned char* Dbecore::Par::getVblob() {
 	unsigned char* retval = NULL;
 
 	if (buflen > 1) {
@@ -352,7 +356,7 @@ unsigned char* Par::getVblob() {
 	return retval;
 };
 
-size_t Par::getLen() {
+size_t Dbecore::Par::getLen() {
 	size_t len = 0;
 
 	if (buf) {
@@ -363,7 +367,7 @@ size_t Par::getLen() {
 	return len;
 };
 
-void Par::parsToBuf(
+void Dbecore::Par::parsToBuf(
 			map<string,Par>& pars
 			, vector<string>& seqPars
 			, unsigned char** buf
@@ -398,7 +402,7 @@ void Par::parsToBuf(
 	};
 };
 
-string Par::parsToText(
+string Dbecore::Par::parsToText(
 			map<string,Par>& pars
 			, vector<string>& seqPars
 			, const bool truncate

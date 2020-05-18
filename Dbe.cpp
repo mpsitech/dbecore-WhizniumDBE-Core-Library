@@ -3,16 +3,19 @@
   * WhizniumDBE globals (implementation)
   * \author Alexander Wirthmüller
   * \date created: 20 Nov 2016
-  * \date modified: 22 Apr 2017
+  * \date modified: 22 Apr 2020
   */
 
 #include "Dbe.h"
+
+using namespace std;
+using namespace Sbecore;
 
 /******************************************************************************
  namespace VecDbeVAction
  ******************************************************************************/
 
-utinyint VecDbeVAction::getTix(
+utinyint Dbecore::VecDbeVAction::getTix(
 			const string& sref
 		) {
 	string s = StrMod::lc(sref);
@@ -32,7 +35,7 @@ utinyint VecDbeVAction::getTix(
 	return 0;
 };
 
-string VecDbeVAction::getSref(
+string Dbecore::VecDbeVAction::getSref(
 			const utinyint tix
 		) {
 	if (tix == INV) return("inv");
@@ -50,7 +53,7 @@ string VecDbeVAction::getSref(
 	return("");
 };
 
-string VecDbeVAction::getTitle(
+string Dbecore::VecDbeVAction::getTitle(
 			const utinyint tix
 		) {
 	if (tix == INV) return("invoke");
@@ -72,7 +75,7 @@ string VecDbeVAction::getTitle(
  namespace VecDbeVXfer
  ******************************************************************************/
 
-utinyint VecDbeVXfer::getTix(
+utinyint Dbecore::VecDbeVXfer::getTix(
 			const string& sref
 		) {
 	string s = StrMod::lc(sref);
@@ -94,7 +97,7 @@ utinyint VecDbeVXfer::getTix(
 	return 0;
 };
 
-string VecDbeVXfer::getSref(
+string Dbecore::VecDbeVXfer::getSref(
 			const utinyint tix
 		) {
 	if (tix == VOID) return("void");
@@ -118,14 +121,14 @@ string VecDbeVXfer::getSref(
  namespace Dbe
  ******************************************************************************/
 
-bool Dbe::bigendian() {
+bool Dbecore::Dbe::bigendian() {
 	unsigned short int var = 255;
 	char* buf = ((char*) &var);
 	
 	return(buf[0] == 0);
 };
 
-string Dbe::binToHex(
+string Dbecore::Dbe::binToHex(
 			unsigned char bin
 		) {
 	string hex;
@@ -143,7 +146,7 @@ string Dbe::binToHex(
 	return hex;
 };
 
-unsigned char Dbe::hexToBin(
+unsigned char Dbecore::Dbe::hexToBin(
 			string hex
 		) {
 	if (hex.size() != 2) return 0;
@@ -167,7 +170,7 @@ unsigned char Dbe::hexToBin(
 	return bin;
 };
 
-void Dbe::hexToBuf(
+void Dbecore::Dbe::hexToBuf(
 			const string& s
 			, unsigned char** buf
 			, size_t& buflen
@@ -189,7 +192,7 @@ void Dbe::hexToBuf(
 	for (unsigned int j = 0; j < buflen; i++, j++) (*buf)[j] = hexToBin(s.substr(2*i, 2));
 };
 
-string Dbe::bufToHex(
+string Dbecore::Dbe::bufToHex(
 			unsigned char* buf
 			, size_t buflen
 			, const bool truncate

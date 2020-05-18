@@ -3,7 +3,7 @@
   * buffer transfer functionality (declarations)
   * \author Alexander Wirthmüller
   * \date created: 23 Nov 2016
-  * \date modified: 29 Apr 2017
+  * \date modified: 30 Apr 2020
   */
 
 #ifndef DBECORE_BUFXFER_H
@@ -11,121 +11,122 @@
 
 #include <dbecore/Cmd.h>
 
-/**
-  * bufxfref_t
-  */
-class bufxfref_t {
-
-public:
-	bufxfref_t(const uint ixVState = 0, const utinyint rootTixWBuffer = 0, const ubigint bref = 0);
-
-public:
-	uint ixVState;
-	utinyint rootTixWBuffer;
-	ubigint bref;
-
-public:
-	bool operator<(const bufxfref_t& comp) const;
-};
-
-/**
-  * bufxfref2_t
-  */
-class bufxfref2_t {
-
-public:
-	bufxfref2_t(const uint ixVTarget = 0, const ubigint uref = 0, const ubigint bref = 0);
-
-public:
-	uint ixVTarget;
-	ubigint uref;
-	ubigint bref;
-
-public:
-	bool operator<(const bufxfref2_t& comp) const;
-};
-
-/**
-	* Bufxf
-	*/
-class Bufxf {
-
-public:
+namespace Dbecore {
 	/**
-		* VecVState
+		* bufxfref_t
 		*/
-	class VecVState {
+	class bufxfref_t {
 
 	public:
-		static const uint VOID = 0;
-		static const uint WAITPREP = 1;
-		static const uint WAITINV = 2;
-		static const uint WAITXFER = 3;
-		static const uint WAITRET = 4;
-		static const uint DONE = 5;
+		bufxfref_t(const Sbecore::uint ixVState = 0, const Sbecore::utinyint rootTixWBuffer = 0, const Sbecore::ubigint bref = 0);
 
-		static uint getIx(const string& sref);
-		static string getSref(const uint ix);
-		static string getTitle(const uint ix);
+	public:
+		Sbecore::uint ixVState;
+		Sbecore::utinyint rootTixWBuffer;
+		Sbecore::ubigint bref;
+
+	public:
+		bool operator<(const bufxfref_t& comp) const;
 	};
 
-public:
-	Bufxf(const utinyint tixWBuffer, const bool writeNotRead, const size_t reqlen, const size_t prelen = 0, const size_t postlen = 0, unsigned char* buf = NULL);
-	~Bufxf();
+	/**
+		* bufxfref2_t
+		*/
+	class bufxfref2_t {
 
-public:
-	utinyint tixWBuffer;
+	public:
+		bufxfref2_t(const Sbecore::uint ixVTarget = 0, const Sbecore::ubigint uref = 0, const Sbecore::ubigint bref = 0);
 
-	bool writeNotRead;
+	public:
+		Sbecore::uint ixVTarget;
+		Sbecore::ubigint uref;
+		Sbecore::ubigint bref;
 
-	size_t reqlen;
-	size_t prelen;
-	size_t postlen;
+	public:
+		bool operator<(const bufxfref2_t& comp) const;
+	};
 
-	uint ixVTarget;
-	ubigint uref;
+	/**
+		* Bufxf
+		*/
+	class Bufxf {
 
-	uint ixVState;
+	public:
+		/**
+			* VecVState
+			*/
+		class VecVState {
 
-	ubigint bref;
+		public:
+			static const Sbecore::uint VOID = 0;
+			static const Sbecore::uint WAITPREP = 1;
+			static const Sbecore::uint WAITINV = 2;
+			static const Sbecore::uint WAITXFER = 3;
+			static const Sbecore::uint WAITRET = 4;
+			static const Sbecore::uint DONE = 5;
 
-	set<cmdix_t> icsReqcmd;
+			static Sbecore::uint getIx(const std::string& sref);
+			static std::string getSref(const Sbecore::uint ix);
+			static std::string getTitle(const Sbecore::uint ix);
+		};
 
-	utinyint rootTixWBuffer;
-	vector<Cmd*> cmds;
+	public:
+		Bufxf(const Sbecore::utinyint tixWBuffer, const bool writeNotRead, const size_t reqlen, const size_t prelen = 0, const size_t postlen = 0, unsigned char* buf = NULL);
+		~Bufxf();
 
-	bool dataExtNotInt;
-	unsigned char* data;
-	size_t ptr;
+	public:
+		Sbecore::utinyint tixWBuffer;
 
-	bool success; // ev. replace by Err
+		bool writeNotRead;
 
-	Cond cProgress;
+		size_t reqlen;
+		size_t prelen;
+		size_t postlen;
 
-	bool (*progressCallback)(Bufxf* bufxf, void* arg);
-	void* argProgressCallback;
+		Sbecore::uint ixVTarget;
+		Sbecore::ubigint uref;
 
-	bool (*errorCallback)(Bufxf* bufxf, void* arg);
-	void* argErrorCallback;
+		Sbecore::uint ixVState;
 
-	bool (*doneCallback)(Bufxf* bufxf, void* arg);
-	void* argDoneCallback;
+		Sbecore::ubigint bref;
 
-public:
-	void appendReadData(const unsigned char* _data, const size_t _datalen);
-	unsigned char* getReadData();
-	size_t getReadDatalen();
+		std::set<cmdix_t> icsReqcmd;
 
-	void setWriteData(const unsigned char* _data, const size_t _datalen);
+		Sbecore::utinyint rootTixWBuffer;
+		std::vector<Cmd*> cmds;
 
-	void setProgressCallback(bool (*_progressCallback)(Bufxf* bufxf, void* arg), void* _argProgressCallback);
-	void setErrorCallback(bool (*_errorCallback)(Bufxf* bufxf, void* arg), void* _argErrorCallback);
-	void setDoneCallback(bool (*_doneCallback)(Bufxf* bufxf, void* arg), void* _argDoneCallback);
+		bool dataExtNotInt;
+		unsigned char* data;
+		size_t ptr;
 
-	void lockAccess(const string& srefObject, const string& srefMember);
-	void signalProgress(const string& srefObject, const string& srefMember);
-	bool timedwaitProgress(const unsigned int dt, const string& srefObject, const string& srefMember);
-	void unlockAccess(const string& srefObject, const string& srefMember);
+		bool success; // ev. replace by Err
+
+		Sbecore::Cond cProgress;
+
+		bool (*progressCallback)(Bufxf* bufxf, void* arg);
+		void* argProgressCallback;
+
+		bool (*errorCallback)(Bufxf* bufxf, void* arg);
+		void* argErrorCallback;
+
+		bool (*doneCallback)(Bufxf* bufxf, void* arg);
+		void* argDoneCallback;
+
+	public:
+		void appendReadData(const unsigned char* _data, const size_t _datalen);
+		unsigned char* getReadData();
+		size_t getReadDatalen();
+
+		void setWriteData(const unsigned char* _data, const size_t _datalen);
+
+		void setProgressCallback(bool (*_progressCallback)(Bufxf* bufxf, void* arg), void* _argProgressCallback);
+		void setErrorCallback(bool (*_errorCallback)(Bufxf* bufxf, void* arg), void* _argErrorCallback);
+		void setDoneCallback(bool (*_doneCallback)(Bufxf* bufxf, void* arg), void* _argDoneCallback);
+
+		void lockAccess(const std::string& srefObject, const std::string& srefMember);
+		void signalProgress(const std::string& srefObject, const std::string& srefMember);
+		bool timedwaitProgress(const unsigned int dt, const std::string& srefObject, const std::string& srefMember);
+		void unlockAccess(const std::string& srefObject, const std::string& srefMember);
+	};
 };
-
 #endif
