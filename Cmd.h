@@ -3,7 +3,7 @@
   * command functionality (declarations)
   * \author Alexander Wirthmüller
   * \date created: 3 Feb 2016
-  * \date modified: 30 Apr 2020
+  * \date modified: 18 May 2020
   */
 
 #ifndef DBECORE_CMD_H
@@ -164,11 +164,12 @@ namespace Dbecore {
 		bool timedwaitProgress(const unsigned int dt, const std::string& srefObject, const std::string& srefMember);
 		void unlockAccess(const std::string& srefObject, const std::string& srefMember);
 
+		std::string parsToTemplate(const bool retNotInv);
+
 		void hexToParsInv(const std::string& s);
 		void parlistToParsInv(const std::string& s);
 
 		void parsInvToBuf(unsigned char** buf, size_t& buflen);
-		std::string parsInvToTemplate();
 
 		size_t getInvBuflen();
 		std::string getInvText(const bool truncate = false, bool* truncated = NULL);

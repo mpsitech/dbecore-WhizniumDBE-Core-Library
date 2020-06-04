@@ -3,7 +3,7 @@
   * command functionality (implementation)
   * \author Alexander Wirthmüller
   * \date created: 3 Feb 2016
-  * \date modified: 22 Apr 2020
+  * \date modified: 18 May 2020
   */
 
 #include "Cmd.h"
@@ -318,6 +318,57 @@ void Dbecore::Cmd::unlockAccess(
 	cProgress.lockMutex(srefObject, srefMember);
 };
 
+string Dbecore::Cmd::parsToTemplate(
+			const bool retNotInv
+		) {
+	string retval;
+
+	map<string,Par>& pars = [&]() ->map<string,Par>& {if (!retNotInv) return parsInv; return parsRet;}();
+	vector<string>& seqPars = [&]() ->vector<string>& {if (!retNotInv) return seqParsInv; return seqParsRet;}();
+
+	Par* par = NULL;
+
+	Feed feed;
+
+	bool first;
+
+	first = true;
+	for (unsigned int i = 0; i < seqPars.size(); i++) {
+		auto it = pars.find(seqPars[i]);
+
+		if (it != pars.end()) {
+			par = &(it->second);
+
+			if (first) first = false;
+			else retval += ",";
+
+			retval += par->sref;
+			if (!retNotInv) retval += "=";
+
+			if (par->ixVType == Par::VecVType::_BOOL) retval += "{false,true}";
+			else if (par->ixVType == Par::VecVType::TIX) {
+				retval += "{";
+
+				if (par->fillFeed) {
+					par->fillFeed(feed);
+
+					for (unsigned int j = 0; j < feed.size(); j++) {
+						if (j != 0) retval += ",";
+						retval += feed.getSrefByNum(j+1);
+					};
+				};
+
+				retval += "}";
+
+			} else if (par->ixVType == Par::VecVType::BLOB) retval += "[blob" + to_string(par->buflen) + "]";
+			else if (par->ixVType == Par::VecVType::VBLOB) retval += "[len,vblob" + to_string(par->buflen) + "]";
+			else retval += "[" + Par::VecVType::getSref(par->ixVType) + "]";
+		};
+	};
+
+	return retval;
+};
+
 void Dbecore::Cmd::hexToParsInv(
 			const string& s
 		) {
@@ -492,51 +543,6 @@ size_t Dbecore::Cmd::getInvBuflen() {
 	for (auto it = parsInv.begin(); it != parsInv.end(); it++) buflen += it->second.buflen;
 
 	return buflen;
-};
-
-string Dbecore::Cmd::parsInvToTemplate() {
-	string retval;
-
-	Par* par = NULL;
-
-	Feed feed;
-
-	bool first;
-
-	first = true;
-	for (unsigned int i = 0; i < seqParsInv.size(); i++) {
-		auto it = parsInv.find(seqParsInv[i]);
-
-		if (it != parsInv.end()) {
-			par = &(it->second);
-
-			if (first) first = false;
-			else retval += ",";
-
-			retval += par->sref + "=";
-
-			if (par->ixVType == Par::VecVType::_BOOL) retval += "{false,true}";
-			else if (par->ixVType == Par::VecVType::TIX) {
-				retval += "{";
-
-				if (par->fillFeed) {
-					par->fillFeed(feed);
-
-					for (unsigned int j = 0; j < feed.size(); j++) {
-						if (j != 0) retval += ",";
-						retval += feed.getSrefByNum(j+1);
-					};
-				};
-
-				retval += "}";
-
-			} else if (par->ixVType == Par::VecVType::BLOB) retval += "[blob" + to_string(par->buflen) + "]";
-			else if (par->ixVType == Par::VecVType::VBLOB) retval += "[len,vblob" + to_string(par->buflen) + "]";
-			else retval += "[" + Par::VecVType::getSref(par->ixVType) + "]";
-		};
-	};
-
-	return retval;
 };
 
 string Dbecore::Cmd::getInvText(
