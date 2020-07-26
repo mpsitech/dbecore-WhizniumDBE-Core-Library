@@ -1,2 +1,3 @@
 # dbecore
-MPSI Technologies WhizniumDBE core library
+
+WhizniumDBE core library; simple helpers
