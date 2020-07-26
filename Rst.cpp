@@ -141,14 +141,14 @@ void Dbecore::Rst::lockAccess(
 			const string& srefObject
 			, const string& srefMember
 		) {
-	cProgress.lockMutex(srefObject, srefMember);
+	cProgress.lockMutex(srefObject, srefMember, "rref=" + to_string(rref));
 };
 
 void Dbecore::Rst::signalProgress(
 			const string& srefObject
 			, const string& srefMember
 		) {
-	cProgress.signal(srefObject, srefMember);
+	cProgress.signal(srefObject, srefMember, "rref=" + to_string(rref));
 };
 
 bool Dbecore::Rst::timedwaitProgress(
@@ -156,12 +156,12 @@ bool Dbecore::Rst::timedwaitProgress(
 			, const string& srefObject
 			, const string& srefMember
 		) {
-	return cProgress.timedwait(dt, srefObject, srefMember);
+	return cProgress.timedwait(dt, srefObject, srefMember, "rref=" + to_string(rref));
 };
 
 void Dbecore::Rst::unlockAccess(
 			const string& srefObject
 			, const string& srefMember
 		) {
-	cProgress.unlockMutex(srefObject, srefMember);
+	cProgress.unlockMutex(srefObject, srefMember, "rref=" + to_string(rref));
 };

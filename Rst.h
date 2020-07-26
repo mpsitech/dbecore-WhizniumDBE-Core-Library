@@ -93,10 +93,10 @@ namespace Dbecore {
 	public:
 		void setProgressCallback(bool (*_progressCallback)(Rst* rst, void* arg), void* _argProgressCallback);
 
-		void lockAccess(const std::string& srefObject, const std::string& srefMember);
-		void signalProgress(const std::string& srefObject, const std::string& srefMember);
-		bool timedwaitProgress(const unsigned int dt, const std::string& srefObject, const std::string& srefMember);
-		void unlockAccess(const std::string& srefObject, const std::string& srefMember);
+		void lockAccess(const std::string& srefObject = "", const std::string& srefMember = "");
+		void signalProgress(const std::string& srefObject = "", const std::string& srefMember = "");
+		bool timedwaitProgress(const unsigned int dt, const std::string& srefObject = "", const std::string& srefMember = "");
+		void unlockAccess(const std::string& srefObject = "", const std::string& srefMember = "");
 	};
 };
 #endif

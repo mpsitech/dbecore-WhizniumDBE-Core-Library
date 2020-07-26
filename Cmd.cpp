@@ -286,21 +286,21 @@ void Dbecore::Cmd::lockAccess(
 			const string& srefObject
 			, const string& srefMember
 		) {
-	cProgress.lockMutex(srefObject, srefMember);
+	cProgress.lockMutex(srefObject, srefMember, "cref=" + to_string(cref));
 };
 
 void Dbecore::Cmd::signalProgress(
 			const string& srefObject
 			, const string& srefMember
 		) {
-	cProgress.signal(srefObject, srefMember);
+	cProgress.signal(srefObject, srefMember, "cref=" + to_string(cref));
 };
 
 void Dbecore::Cmd::waitProgress(
 			const string& srefObject
 			, const string& srefMember
 		) {
-	cProgress.wait(srefObject, srefMember);
+	cProgress.wait(srefObject, srefMember, "cref=" + to_string(cref));
 };
 
 bool Dbecore::Cmd::timedwaitProgress(
@@ -308,14 +308,14 @@ bool Dbecore::Cmd::timedwaitProgress(
 			, const string& srefObject
 			, const string& srefMember
 		) {
-	return cProgress.timedwait(dt, srefObject, srefMember);
+	return cProgress.timedwait(dt, srefObject, srefMember, "cref=" + to_string(cref));
 };
 
 void Dbecore::Cmd::unlockAccess(
 			const string& srefObject
 			, const string& srefMember
 		) {
-	cProgress.lockMutex(srefObject, srefMember);
+	cProgress.lockMutex(srefObject, srefMember, "cref=" + to_string(cref));
 };
 
 string Dbecore::Cmd::parsToTemplate(

@@ -233,14 +233,14 @@ void Dbecore::Bufxf::lockAccess(
 			const string& srefObject
 			, const string& srefMember
 		) {
-	cProgress.lockMutex(srefObject, srefMember);
+	cProgress.lockMutex(srefObject, srefMember, "bref=" + to_string(bref));
 };
 
 void Dbecore::Bufxf::signalProgress(
 			const string& srefObject
 			, const string& srefMember
 		) {
-	cProgress.signal(srefObject, srefMember);
+	cProgress.signal(srefObject, srefMember, "bref=" + to_string(bref));
 };
 
 bool Dbecore::Bufxf::timedwaitProgress(
@@ -248,12 +248,12 @@ bool Dbecore::Bufxf::timedwaitProgress(
 			, const string& srefObject
 			, const string& srefMember
 		) {
-	return cProgress.timedwait(dt, srefObject, srefMember);
+	return cProgress.timedwait(dt, srefObject, srefMember, "bref=" + to_string(bref));
 };
 
 void Dbecore::Bufxf::unlockAccess(
 			const string& srefObject
 			, const string& srefMember
 		) {
-	cProgress.unlockMutex(srefObject, srefMember);
+	cProgress.unlockMutex(srefObject, srefMember, "bref=" + to_string(bref));
 };

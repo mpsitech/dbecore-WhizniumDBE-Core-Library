@@ -158,11 +158,11 @@ namespace Dbecore {
 
 		virtual void returnToCallback();
 
-		void lockAccess(const std::string& srefObject, const std::string& srefMember);
-		void signalProgress(const std::string& srefObject, const std::string& srefMember);
-		void waitProgress(const std::string& srefObject, const std::string& srefMember);
-		bool timedwaitProgress(const unsigned int dt, const std::string& srefObject, const std::string& srefMember);
-		void unlockAccess(const std::string& srefObject, const std::string& srefMember);
+		void lockAccess(const std::string& srefObject = "", const std::string& srefMember = "");
+		void signalProgress(const std::string& srefObject = "", const std::string& srefMember = "");
+		void waitProgress(const std::string& srefObject = "", const std::string& srefMember = "");
+		bool timedwaitProgress(const unsigned int dt, const std::string& srefObject = "", const std::string& srefMember = "");
+		void unlockAccess(const std::string& srefObject = "", const std::string& srefMember = "");
 
 		std::string parsToTemplate(const bool retNotInv);
 

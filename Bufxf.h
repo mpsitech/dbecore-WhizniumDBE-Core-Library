@@ -123,10 +123,10 @@ namespace Dbecore {
 		void setErrorCallback(bool (*_errorCallback)(Bufxf* bufxf, void* arg), void* _argErrorCallback);
 		void setDoneCallback(bool (*_doneCallback)(Bufxf* bufxf, void* arg), void* _argDoneCallback);
 
-		void lockAccess(const std::string& srefObject, const std::string& srefMember);
-		void signalProgress(const std::string& srefObject, const std::string& srefMember);
-		bool timedwaitProgress(const unsigned int dt, const std::string& srefObject, const std::string& srefMember);
-		void unlockAccess(const std::string& srefObject, const std::string& srefMember);
+		void lockAccess(const std::string& srefObject = "", const std::string& srefMember = "");
+		void signalProgress(const std::string& srefObject = "", const std::string& srefMember = "");
+		bool timedwaitProgress(const unsigned int dt, const std::string& srefObject = "", const std::string& srefMember = "");
+		void unlockAccess(const std::string& srefObject = "", const std::string& srefMember = "");
 	};
 };
 #endif
