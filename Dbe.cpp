@@ -1,10 +1,10 @@
 /**
-  * \file Dbe.cpp
-  * WhizniumDBE globals (implementation)
-  * \author Alexander Wirthmüller
-  * \date created: 20 Nov 2016
-  * \date modified: 22 Apr 2020
-  */
+	* \file Dbe.cpp
+	* WhizniumDBE globals (implementation)
+	* \copyright (C) 2016-2020 MPSI Technologies GmbH
+	* \author Alexander Wirthmüller
+	* \date created: 20 Nov 2016
+	*/
 
 #include "Dbe.h"
 

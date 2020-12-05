@@ -1,10 +1,10 @@
 /**
-  * \file Rst.cpp
-  * reset functionality (implementation)
-  * \author Alexander Wirthmüller
-  * \date created: 29 Apr 2017
-  * \date modified: 22 Apr 2020
-  */
+	* \file Rst.cpp
+	* reset functionality (implementation)
+	* \copyright (C) 2017-2020 MPSI Technologies GmbH
+	* \author Alexander Wirthmüller
+	* \date created: 29 Apr 2017
+	*/
 
 #include "Rst.h"
 

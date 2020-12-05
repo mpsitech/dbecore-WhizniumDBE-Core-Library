@@ -1,10 +1,10 @@
 /**
-  * \file Crc.cpp
-  * CRC-16 functionality (implementation)
-  * \author Alexander Wirthmüller
-  * \date created: 5 Dec 2016
-  * \date modified: 22 Apr 2020
-  */
+	* \file Crc.cpp
+	* CRC-16 functionality (implementation)
+	* \copyright (C) 2016-2020 MPSI Technologies GmbH
+	* \author Alexander Wirthmüller
+	* \date created: 5 Dec 2016
+	*/
 
 #include "Crc.h"
 

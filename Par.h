@@ -1,10 +1,10 @@
 /**
-  * \file Par.h
-  * parameter functionality (declarations)
-  * \author Alexander Wirthmüller
-  * \date created: 29 Apr 2017
-  * \date modified: 30 Apr 2020
-  */
+	* \file Par.h
+	* parameter functionality (declarations)
+	* \copyright (C) 2017-2020 MPSI Technologies GmbH
+	* \author Alexander Wirthmüller
+	* \date created: 29 Apr 2017
+	*/
 
 #ifndef DBECORE_PAR_H
 #define DBECORE_PAR_H

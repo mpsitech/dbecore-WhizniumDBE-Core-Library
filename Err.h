@@ -1,10 +1,10 @@
 /**
-  * \file Err.h
-  * error functionality (declarations)
-  * \author Alexander Wirthmüller
-  * \date created: 21 Apr 2017
-  * \date modified: 30 Apr 2020
-  */
+	* \file Err.h
+	* error functionality (declarations)
+	* \copyright (C) 2017-2020 MPSI Technologies GmbH
+	* \author Alexander Wirthmüller
+	* \date created: 21 Apr 2017
+	*/
 
 #ifndef DBECORE_ERR_H
 #define DBECORE_ERR_H

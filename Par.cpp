@@ -1,10 +1,10 @@
 /**
-  * \file Par.cpp
-  * parameter functionality (implementation)
+	* \file Par.cpp
+	* parameter functionality (implementation)
+	* \copyright (C) 2017-2020 MPSI Technologies GmbH
   * \author Alexander Wirthmüller
-  * \date created: 29 Apr 2017
-  * \date modified: 22 Apr 2020
-  */
+	* \date created: 29 Apr 2017
+	*/
 
 #include "Par.h"
 

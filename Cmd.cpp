@@ -1,10 +1,10 @@
 /**
-  * \file Cmd.cpp
-  * command functionality (implementation)
-  * \author Alexander Wirthmüller
-  * \date created: 3 Feb 2016
-  * \date modified: 18 May 2020
-  */
+	* \file Cmd.cpp
+	* command functionality (implementation)
+	* \copyright (C) 2016-2020 MPSI Technologies GmbH
+	* \author Alexander Wirthmüller
+	* \date created: 3 Feb 2016
+	*/
 
 #include "Cmd.h"
 

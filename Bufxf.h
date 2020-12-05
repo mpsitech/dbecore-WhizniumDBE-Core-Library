@@ -1,10 +1,10 @@
 /**
-  * \file Bufxf.h
-  * buffer transfer functionality (declarations)
-  * \author Alexander Wirthmüller
-  * \date created: 23 Nov 2016
-  * \date modified: 30 Apr 2020
-  */
+	* \file Bufxf.h
+	* buffer transfer functionality (declarations)
+	* \copyright (C) 2016-2020 MPSI Technologies GmbH
+	* \author Alexander Wirthmüller
+	* \date created: 23 Nov 2016
+	*/
 
 #ifndef DBECORE_BUFXFER_H
 #define DBECORE_BUFXFER_H

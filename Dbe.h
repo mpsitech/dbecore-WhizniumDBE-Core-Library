@@ -1,10 +1,10 @@
 /**
-  * \file Dbe.h
-  * WhizniumDBE globals (declarations)
-  * \author Alexander Wirthmüller
-  * \date created: 20 Nov 2016
-  * \date modified: 22 Apr 2020
-  */
+	* \file Dbe.h
+	* WhizniumDBE globals (declarations)
+	* \copyright (C) 2016-2020 MPSI Technologies GmbH
+	* \author Alexander Wirthmüller
+	* \date created: 20 Nov 2016
+	*/
 
 #ifndef DBECORE_DBE_H
 #define DBECORE_DBE_H

@@ -1,10 +1,10 @@
 /**
-  * \file Rst.h
-  * reset functionality (declarations)
-  * \author Alexander Wirthmüller
-  * \date created: 21 Apr 2017
-  * \date modified: 30 Apr 2020
-  */
+	* \file Rst.h
+	* reset functionality (declarations)
+	* \copyright (C) 2017-2020 MPSI Technologies GmbH
+	* \author Alexander Wirthmüller
+	* \date created: 21 Apr 2017
+	*/
 
 #ifndef DBECORE_RST_H
 #define DBECORE_RST_H

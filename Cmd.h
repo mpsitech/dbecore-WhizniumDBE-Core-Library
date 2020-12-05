@@ -1,10 +1,10 @@
 /**
-  * \file Cmd.h
-  * command functionality (declarations)
-  * \author Alexander Wirthmüller
-  * \date created: 3 Feb 2016
-  * \date modified: 18 May 2020
-  */
+	* \file Cmd.h
+	* command functionality (declarations)
+	* \copyright (C) 2016-2020 MPSI Technologies GmbH
+	* \author Alexander Wirthmüller
+	* \date created: 3 Feb 2016
+	*/
 
 #ifndef DBECORE_CMD_H
 #define DBECORE_CMD_H

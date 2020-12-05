@@ -1,10 +1,10 @@
 /**
-  * \file Bufxf.cpp
-  * buffer transfer functionality (implementation)
-  * \author Alexander Wirthmüller
-  * \date created: 23 Nov 2016
-  * \date modified: 22 Apr 2020
-  */
+	* \file Bufxf.cpp
+	* buffer transfer functionality (implementation)
+	* \copyright (C) 2016-2020 MPSI Technologies GmbH
+	* \author Alexander Wirthmüller
+	* \date created: 23 Nov 2016
+	*/
 
 #include "Bufxf.h"
 
