@@ -437,7 +437,7 @@ void Dbecore::Cmd::parlistToParsInv(
 
 	int intval;
 
-	StrMod::stringToVector(s, ss, ',');
+	StrMod::stringToVector(s, ss, ',', true);
 
 	for (unsigned int i = 0; i < ss.size(); i++) {
 		ptr = ss[i].find('=');
