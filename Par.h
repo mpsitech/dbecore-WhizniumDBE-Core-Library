@@ -9,8 +9,6 @@
 #ifndef DBECORE_PAR_H
 #define DBECORE_PAR_H
 
-#include <sbecore/Xmlio.h>
-
 #include <dbecore/Dbe.h>
 
 namespace Dbecore {
@@ -43,7 +41,7 @@ namespace Dbecore {
 		};
 
 	public:
-		Par(const std::string& sref = "", const Sbecore::uint ixVType = 0, Sbecore::utinyint (*getTixBySref)(const std::string& sref) = NULL, std::string (*getSrefByTix)(const Sbecore::utinyint tix) = NULL, void (*fillFeed)(Sbecore::Xmlio::Feed& feed) = NULL, size_t len = 0);
+		Par(const std::string& sref = "", const Sbecore::uint ixVType = 0, Sbecore::utinyint (*getTixBySref)(const std::string& sref) = NULL, std::string (*getSrefByTix)(const Sbecore::utinyint tix) = NULL, void (*fillFeed)(Sbecore::Feed& feed) = NULL, size_t len = 0);
 		Par(const Par& src);
 		~Par();
 
@@ -55,7 +53,7 @@ namespace Dbecore {
 
 		Sbecore::utinyint (*getTixBySref)(const std::string& sref); // populated in derived classes
 		std::string (*getSrefByTix)(const Sbecore::utinyint tix);
-		void (*fillFeed)(Sbecore::Xmlio::Feed& feed);
+		void (*fillFeed)(Sbecore::Feed& feed);
 
 		unsigned char* buf;
 		size_t buflen;

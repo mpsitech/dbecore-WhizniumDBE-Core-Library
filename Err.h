@@ -29,7 +29,7 @@ namespace Dbecore {
 		std::vector<std::string> seqPars;
 
 	public:
-		void addPar(const std::string& sref, const Sbecore::uint ixVType, Sbecore::utinyint (*getTixBySref)(const std::string& sref) = NULL, std::string (*getSrefByTix)(const Sbecore::utinyint tix) = NULL, void (*fillFeed)(Sbecore::Xmlio::Feed& feed) = NULL, size_t buflen = 0);
+		void addPar(const std::string& sref, const Sbecore::uint ixVType, Sbecore::utinyint (*getTixBySref)(const std::string& sref) = NULL, std::string (*getSrefByTix)(const Sbecore::utinyint tix) = NULL, void (*fillFeed)(Sbecore::Feed& feed) = NULL, size_t buflen = 0);
 
 		void bufToPars(const unsigned char* buf, const size_t buflen);
 

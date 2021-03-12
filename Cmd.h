@@ -148,8 +148,8 @@ namespace Dbecore {
 		void* argDoneCallback;
 
 	public:
-		void addParInv(const std::string& sref, const Sbecore::uint ixVType, Sbecore::utinyint (*getTixBySref)(const std::string& sref) = NULL, std::string (*getSrefByTix)(const Sbecore::utinyint tix) = NULL, void (*fillFeed)(Sbecore::Xmlio::Feed& feed) = NULL, size_t buflen = 0);
-		void addParRet(const std::string& sref, const Sbecore::uint ixVType, Sbecore::utinyint (*getTixBySref)(const std::string& sref) = NULL, std::string (*getSrefByTix)(const Sbecore::utinyint tix) = NULL, void (*fillFeed)(Sbecore::Xmlio::Feed& feed) = NULL, size_t buflen = 0);
+		void addParInv(const std::string& sref, const Sbecore::uint ixVType, Sbecore::utinyint (*getTixBySref)(const std::string& sref) = NULL, std::string (*getSrefByTix)(const Sbecore::utinyint tix) = NULL, void (*fillFeed)(Sbecore::Feed& feed) = NULL, size_t buflen = 0);
+		void addParRet(const std::string& sref, const Sbecore::uint ixVType, Sbecore::utinyint (*getTixBySref)(const std::string& sref) = NULL, std::string (*getSrefByTix)(const Sbecore::utinyint tix) = NULL, void (*fillFeed)(Sbecore::Feed& feed) = NULL, size_t buflen = 0);
 
 		void setProgressCallback(bool (*_progressCallback)(Cmd* cmd, void* arg), void* _argProgressCallback);
 		void setReturnCallback(void (*_returnCallback)(Cmd* cmd, void* arg), void* _argReturnCallback);
