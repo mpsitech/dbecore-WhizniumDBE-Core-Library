@@ -13,7 +13,7 @@
  ******************************************************************************/
 
 Dbecore::Crc::Crc(
-			const unsigned short crcpoly
+			const uint16_t crcpoly
 			, const bool bitinv
 		) {
 	this->crcpoly = crcpoly;
@@ -29,7 +29,7 @@ void Dbecore::Crc::reset() {
 void Dbecore::Crc::includeByte(
 			const unsigned char b
 		) {
-	unsigned short newcrc;
+	uint16_t newcrc;
 	bool bit;
 
 	unsigned char i;
@@ -59,8 +59,8 @@ void Dbecore::Crc::includeBytes(
 };
 
 void Dbecore::Crc::finalize() {
-	unsigned short parity;
-	unsigned short newcrc;
+	uint16_t parity;
+	uint16_t newcrc;
 
 	if (crcpoly == 0x8005) {
 		// parallel method

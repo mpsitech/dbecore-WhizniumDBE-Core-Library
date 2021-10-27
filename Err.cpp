@@ -17,8 +17,8 @@ using namespace Xmlio;
  ******************************************************************************/
 
 Dbecore::Err::Err(
-			const utinyint tixDbeVAction
-			, const utinyint tixVError
+			const uint8_t tixDbeVAction
+			, const uint8_t tixVError
 		) {
 	this->tixDbeVAction = tixDbeVAction;
 	this->tixVError = tixVError;
@@ -29,13 +29,14 @@ Dbecore::Err::~Err() {
 
 void Dbecore::Err::addPar(
 			const string& sref
-			, const uint ixVType
-			, utinyint (*getTixBySref)(const string& sref)
-			, string (*getSrefByTix)(const utinyint tix)
+			, const uint32_t ixVType
+			, uint8_t (*getTixBySref)(const string& sref)
+			, string (*getSrefByTix)(const uint8_t tix)
 			, void (*fillFeed)(Feed& feed)
 			, size_t buflen
 		) {
-	pars.insert(pair<string,Par>(sref, Par(sref, ixVType, getTixBySref, getSrefByTix, fillFeed, buflen))); seqPars.push_back(sref);
+	pars.insert(pair<string, Par>(sref, Par(sref, ixVType, getTixBySref, getSrefByTix, fillFeed, buflen)));
+	seqPars.push_back(sref);
 };
 
 void Dbecore::Err::bufToPars(
@@ -128,7 +129,7 @@ string Dbecore::Err::getParHex(
 string Dbecore::Err::getMessage(
 			const string& srefCtr
 			, const string& srefCmd
-			, const uint cref
+			, const uint32_t cref
 			, const string& srefErr
 			, const string& titErr
 			, const bool cmdNotErronly

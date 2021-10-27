@@ -18,18 +18,18 @@ namespace Dbecore {
 	class Err {
 
 	public:
-		Err(const Sbecore::utinyint tixDbeVAction = VecDbeVAction::ERR, const Sbecore::utinyint tixVError = 0x00);
+		Err(const uint8_t tixDbeVAction = VecDbeVAction::ERR, const uint8_t tixVError = 0x00);
 		virtual ~Err();
 
 	public:
-		Sbecore::utinyint tixDbeVAction;
-		Sbecore::utinyint tixVError;
+		uint8_t tixDbeVAction;
+		uint8_t tixVError;
 
-		std::map<std::string,Par> pars;
+		std::map<std::string, Par> pars;
 		std::vector<std::string> seqPars;
 
 	public:
-		void addPar(const std::string& sref, const Sbecore::uint ixVType, Sbecore::utinyint (*getTixBySref)(const std::string& sref) = NULL, std::string (*getSrefByTix)(const Sbecore::utinyint tix) = NULL, void (*fillFeed)(Sbecore::Feed& feed) = NULL, size_t buflen = 0);
+		void addPar(const std::string& sref, const uint32_t ixVType, uint8_t (*getTixBySref)(const std::string& sref) = NULL, std::string (*getSrefByTix)(const uint8_t tix) = NULL, void (*fillFeed)(Sbecore::Feed& feed) = NULL, size_t buflen = 0);
 
 		void bufToPars(const unsigned char* buf, const size_t buflen);
 
@@ -39,7 +39,7 @@ namespace Dbecore {
 		std::string getParText(const bool truncate = false, bool* truncated = NULL);
 		std::string getParHex(const bool truncate = false, bool* truncated = NULL);
 
-		std::string getMessage(const std::string& srefCtr, const std::string& srefCmd, const Sbecore::uint cref, const std::string& srefErr, const std::string& titErr, const bool cmdNotErronly, const bool titleNotSref);
+		std::string getMessage(const std::string& srefCtr, const std::string& srefCmd, const uint32_t cref, const std::string& srefErr, const std::string& titErr, const bool cmdNotErronly, const bool titleNotSref);
 
 	public:
 		static Err getNewRteerr();

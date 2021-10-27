@@ -18,12 +18,12 @@ namespace Dbecore {
 	class cmdix_t {
 
 	public:
-		cmdix_t(const Sbecore::uint ixVTarget = 0, const Sbecore::utinyint tixVController = 0, const Sbecore::utinyint tixVCommand = 0);
+		cmdix_t(const uint32_t ixVTarget = 0, const uint8_t tixVController = 0, const uint8_t tixVCommand = 0);
 
 	public:
-		Sbecore::uint ixVTarget;
-		Sbecore::utinyint tixVController;
-		Sbecore::utinyint tixVCommand;
+		uint32_t ixVTarget;
+		uint8_t tixVController;
+		uint8_t tixVCommand;
 
 	public:
 		bool operator<(const cmdix_t& comp) const;
@@ -35,11 +35,11 @@ namespace Dbecore {
 	class cmdref_t {
 
 	public:
-		cmdref_t(const Sbecore::uint ixVState = 0, const Sbecore::uint cref = 0);
+		cmdref_t(const uint32_t ixVState = 0, const uint32_t cref = 0);
 
 	public:
-		Sbecore::uint ixVState;
-		Sbecore::uint cref;
+		uint32_t ixVState;
+		uint32_t cref;
 
 	public:
 		bool operator<(const cmdref_t& comp) const;
@@ -51,12 +51,12 @@ namespace Dbecore {
 	class cmdref2_t {
 
 	public:
-		cmdref2_t(const Sbecore::uint ixVTarget = 0, const Sbecore::ubigint uref = 0, const Sbecore::uint cref = 0);
+		cmdref2_t(const uint32_t ixVTarget = 0, const uint64_t uref = 0, const uint32_t cref = 0);
 
 	public:
-		Sbecore::uint ixVTarget;
-		Sbecore::ubigint uref;
-		Sbecore::uint cref;
+		uint32_t ixVTarget;
+		uint64_t uref;
+		uint32_t cref;
 
 	public:
 		bool operator<(const cmdref2_t& comp) const;
@@ -74,15 +74,15 @@ namespace Dbecore {
 		class VecVRettype {
 
 		public:
-			static const Sbecore::uint VOID = 1;
-			static const Sbecore::uint STATSNG = 2;
-			static const Sbecore::uint IMMSNG = 3;
-			static const Sbecore::uint DFRSNG = 4;
-			static const Sbecore::uint MULT = 5;
+			static constexpr uint32_t VOID = 1;
+			static constexpr uint32_t STATSNG = 2;
+			static constexpr uint32_t IMMSNG = 3;
+			static constexpr uint32_t DFRSNG = 4;
+			static constexpr uint32_t MULT = 5;
 
-			static Sbecore::uint getIx(const std::string& sref);
-			static std::string getSref(const Sbecore::uint ix);
-			static std::string getTitle(const Sbecore::uint ix);
+			static uint32_t getIx(const std::string& sref);
+			static std::string getSref(const uint32_t ix);
+			static std::string getTitle(const uint32_t ix);
 		};
 
 		/**
@@ -91,44 +91,44 @@ namespace Dbecore {
 		class VecVState {
 
 		public:
-			static const Sbecore::uint VOID = 0;
-			static const Sbecore::uint WAITINV = 1;
-			static const Sbecore::uint WAITREV = 2;
-			static const Sbecore::uint WAITRET = 3;
-			static const Sbecore::uint WAITNEWRET = 4;
-			static const Sbecore::uint DONE = 5;
+			static constexpr uint32_t VOID = 0;
+			static constexpr uint32_t WAITINV = 1;
+			static constexpr uint32_t WAITREV = 2;
+			static constexpr uint32_t WAITRET = 3;
+			static constexpr uint32_t WAITNEWRET = 4;
+			static constexpr uint32_t DONE = 5;
 
-			static Sbecore::uint getIx(const std::string& sref);
-			static std::string getSref(const Sbecore::uint ix);
-			static std::string getTitle(const Sbecore::uint ix);
+			static uint32_t getIx(const std::string& sref);
+			static std::string getSref(const uint32_t ix);
+			static std::string getTitle(const uint32_t ix);
 		};
 
 	public:
-		Cmd(const Sbecore::utinyint tixVCommand, const Sbecore::uint ixVRettype);
-		Cmd(const Sbecore::utinyint tixVController, const Sbecore::utinyint tixVCommand, const Sbecore::uint ixVRettype);
+		Cmd(const uint8_t tixVCommand, const uint32_t ixVRettype);
+		Cmd(const uint8_t tixVController, const uint8_t tixVCommand, const uint32_t ixVRettype);
 		virtual ~Cmd();
 
 	public:
-		Sbecore::utinyint tixVController;
-		Sbecore::utinyint tixVCommand;
+		uint8_t tixVController;
+		uint8_t tixVCommand;
 
-		Sbecore::uint ixVRettype;
+		uint32_t ixVRettype;
 
-		Sbecore::uint ixVTarget;
-		Sbecore::ubigint uref;
+		uint32_t ixVTarget;
+		uint64_t uref;
 
-		Sbecore::uint ixVState;
+		uint32_t ixVState;
 
-		Sbecore::uint cref;
+		uint32_t cref;
 
-		std::map<std::string,Par> parsInv;
+		std::map<std::string, Par> parsInv;
 		std::vector<std::string> seqParsInv;
 
 		Err err;
 
 		unsigned int Nret;
 
-		std::map<std::string,Par> parsRet;
+		std::map<std::string, Par> parsRet;
 		std::vector<std::string> seqParsRet;
 
 		Sbecore::Cond cProgress;
@@ -148,8 +148,8 @@ namespace Dbecore {
 		void* argDoneCallback;
 
 	public:
-		void addParInv(const std::string& sref, const Sbecore::uint ixVType, Sbecore::utinyint (*getTixBySref)(const std::string& sref) = NULL, std::string (*getSrefByTix)(const Sbecore::utinyint tix) = NULL, void (*fillFeed)(Sbecore::Feed& feed) = NULL, size_t buflen = 0);
-		void addParRet(const std::string& sref, const Sbecore::uint ixVType, Sbecore::utinyint (*getTixBySref)(const std::string& sref) = NULL, std::string (*getSrefByTix)(const Sbecore::utinyint tix) = NULL, void (*fillFeed)(Sbecore::Feed& feed) = NULL, size_t buflen = 0);
+		void addParInv(const std::string& sref, const uint32_t ixVType, uint8_t (*getTixBySref)(const std::string& sref) = NULL, std::string (*getSrefByTix)(const uint8_t tix) = NULL, void (*fillFeed)(Sbecore::Feed& feed) = NULL, size_t buflen = 0);
+		void addParRet(const std::string& sref, const uint32_t ixVType, uint8_t (*getTixBySref)(const std::string& sref) = NULL, std::string (*getSrefByTix)(const uint8_t tix) = NULL, void (*fillFeed)(Sbecore::Feed& feed) = NULL, size_t buflen = 0);
 
 		void setProgressCallback(bool (*_progressCallback)(Cmd* cmd, void* arg), void* _argProgressCallback);
 		void setReturnCallback(void (*_returnCallback)(Cmd* cmd, void* arg), void* _argReturnCallback);

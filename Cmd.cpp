@@ -17,9 +17,9 @@ using namespace Xmlio;
  ******************************************************************************/
 
 Dbecore::cmdix_t::cmdix_t(
-			const uint ixVTarget
-			, const utinyint tixVController
-			, const utinyint tixVCommand
+			const uint32_t ixVTarget
+			, const uint8_t tixVController
+			, const uint8_t tixVCommand
 		) {
 	this->ixVTarget = ixVTarget;
 	this->tixVController = tixVController;
@@ -45,8 +45,8 @@ bool Dbecore::cmdix_t::operator<(
  ******************************************************************************/
 
 Dbecore::cmdref_t::cmdref_t(
-			const uint ixVState
-			, const uint cref
+			const uint32_t ixVState
+			, const uint32_t cref
 		) {
 	this->ixVState = ixVState;
 	this->cref = cref;
@@ -67,9 +67,9 @@ bool Dbecore::cmdref_t::operator<(
  ******************************************************************************/
 
 Dbecore::cmdref2_t::cmdref2_t(
-			const uint ixVTarget
-			, const ubigint uref
-			, const uint cref
+			const uint32_t ixVTarget
+			, const uint64_t uref
+			, const uint32_t cref
 		) {
 	this->ixVTarget = ixVTarget;
 	this->uref = uref;
@@ -94,7 +94,7 @@ bool Dbecore::cmdref2_t::operator<(
  class Cmd::VecVRettype
  ******************************************************************************/
 
-uint Dbecore::Cmd::VecVRettype::getIx(
+uint32_t Dbecore::Cmd::VecVRettype::getIx(
 			const string& sref
 		) {
 	string s = StrMod::lc(sref);
@@ -109,7 +109,7 @@ uint Dbecore::Cmd::VecVRettype::getIx(
 };
 
 string Dbecore::Cmd::VecVRettype::getSref(
-			const uint ix
+			const uint32_t ix
 		) {
 	if (ix == VOID) return("void");
 	else if (ix == STATSNG) return("statsng");
@@ -121,7 +121,7 @@ string Dbecore::Cmd::VecVRettype::getSref(
 };
 
 string Dbecore::Cmd::VecVRettype::getTitle(
-			const uint ix
+			const uint32_t ix
 		) {
 	if (ix == VOID) return("none");
 	else if (ix == STATSNG) return("static single");
@@ -136,7 +136,7 @@ string Dbecore::Cmd::VecVRettype::getTitle(
  class Cmd::VecVState
  ******************************************************************************/
 
-uint Dbecore::Cmd::VecVState::getIx(
+uint32_t Dbecore::Cmd::VecVState::getIx(
 			const string& sref
 		) {
 	string s = StrMod::lc(sref);
@@ -152,7 +152,7 @@ uint Dbecore::Cmd::VecVState::getIx(
 };
 
 string Dbecore::Cmd::VecVState::getSref(
-			const uint ix
+			const uint32_t ix
 		) {
 	if (ix == VOID) return("void");
 	else if (ix == WAITINV) return("waitinv");
@@ -165,7 +165,7 @@ string Dbecore::Cmd::VecVState::getSref(
 };
 
 string Dbecore::Cmd::VecVState::getTitle(
-			const uint ix
+			const uint32_t ix
 		) {
 	if (ix == VOID) return("invalid");
 	else if (ix == WAITINV) return("wait for invoke");
@@ -182,15 +182,15 @@ string Dbecore::Cmd::VecVState::getTitle(
  ******************************************************************************/
 
 Dbecore::Cmd::Cmd(
-			const utinyint tixVCommand
-			, const uint ixVRettype
+			const uint8_t tixVCommand
+			, const uint32_t ixVRettype
 		) : Cmd(0x00, tixVCommand, ixVRettype) {
 };
 
 Dbecore::Cmd::Cmd(
-			const utinyint tixVController
-			, const utinyint tixVCommand
-			, const uint ixVRettype
+			const uint8_t tixVController
+			, const uint8_t tixVCommand
+			, const uint32_t ixVRettype
 		) :
 			cProgress("cProgress", "Cmd", "Cmd")
 		{
@@ -226,24 +226,26 @@ Dbecore::Cmd::~Cmd() {
 
 void Dbecore::Cmd::addParInv(
 			const string& sref
-			, const uint ixVType
-			, utinyint (*getTixBySref)(const string& sref)
-			, string (*getSrefByTix)(const utinyint tix)
+			, const uint32_t ixVType
+			, uint8_t (*getTixBySref)(const string& sref)
+			, string (*getSrefByTix)(const uint8_t tix)
 			, void (*fillFeed)(Feed& feed)
 			, size_t buflen
 		) {
-	parsInv.insert(pair<string,Par>(sref, Par(sref, ixVType, getTixBySref, getSrefByTix, fillFeed, buflen))); seqParsInv.push_back(sref);
+	parsInv.insert(pair<string, Par>(sref, Par(sref, ixVType, getTixBySref, getSrefByTix, fillFeed, buflen)));
+	seqParsInv.push_back(sref);
 };
 
 void Dbecore::Cmd::addParRet(
 			const string& sref
-			, const uint ixVType
-			, utinyint (*getTixBySref)(const string& sref)
-			, string (*getSrefByTix)(const utinyint tix)
+			, const uint32_t ixVType
+			, uint8_t (*getTixBySref)(const string& sref)
+			, string (*getSrefByTix)(const uint8_t tix)
 			, void (*fillFeed)(Feed& feed)
 			, size_t buflen
 		) {
-	parsRet.insert(pair<string,Par>(sref, Par(sref, ixVType, getTixBySref, getSrefByTix, fillFeed, buflen))); seqParsRet.push_back(sref);
+	parsRet.insert(pair<string, Par>(sref, Par(sref, ixVType, getTixBySref, getSrefByTix, fillFeed, buflen)));
+	seqParsRet.push_back(sref);
 };
 
 void Dbecore::Cmd::setProgressCallback(
@@ -323,7 +325,7 @@ string Dbecore::Cmd::parsToTemplate(
 		) {
 	string retval;
 
-	map<string,Par>& pars = [&]() ->map<string,Par>& {if (!retNotInv) return parsInv; return parsRet;}();
+	map<string, Par>& pars = [&]() ->map<string, Par>& {if (!retNotInv) return parsInv; return parsRet;}();
 	vector<string>& seqPars = [&]() ->vector<string>& {if (!retNotInv) return seqParsInv; return seqParsRet;}();
 
 	Par* par = NULL;
@@ -458,18 +460,18 @@ void Dbecore::Cmd::parlistToParsInv(
 					} else if (par->ixVType == Par::VecVType::_BOOL) {
 						par->setBool(StrMod::lc(val) == "true");
 
-					} else if ((par->ixVType == Par::VecVType::TINYINT) || (par->ixVType == Par::VecVType::UTINYINT) || (par->ixVType == Par::VecVType::SMALLINT)
-								|| (par->ixVType == Par::VecVType::USMALLINT) || (par->ixVType == Par::VecVType::INT) || (par->ixVType == Par::VecVType::UINT)) {
+					} else if ((par->ixVType == Par::VecVType::INT8) || (par->ixVType == Par::VecVType::UINT8) || (par->ixVType == Par::VecVType::INT16)
+								|| (par->ixVType == Par::VecVType::UINT16) || (par->ixVType == Par::VecVType::INT32) || (par->ixVType == Par::VecVType::UINT32)) {
 
 						// number or hex code
 						if (val.find("0x") == 0) {
 							Dbe::hexToBuf(val, &buf, buflen);
 
-							if ((par->ixVType == Par::VecVType::TINYINT) || (par->ixVType == Par::VecVType::UTINYINT)) {
+							if ((par->ixVType == Par::VecVType::INT8) || (par->ixVType == Par::VecVType::UINT8)) {
 								if (buflen == 1) memcpy(par->buf, buf, 1); else memset(par->buf, 0, 1);
-							} else if ((par->ixVType == Par::VecVType::SMALLINT) || (par->ixVType == Par::VecVType::USMALLINT)) {
+							} else if ((par->ixVType == Par::VecVType::INT16) || (par->ixVType == Par::VecVType::UINT16)) {
 								if (buflen == 2) memcpy(par->buf, buf, 2); else memset(par->buf, 0, 2);
-							} else if ((par->ixVType == Par::VecVType::INT) || (par->ixVType == Par::VecVType::UINT)) {
+							} else if ((par->ixVType == Par::VecVType::INT32) || (par->ixVType == Par::VecVType::UINT32)) {
 								if (buflen == 4) memcpy(par->buf, buf, 4); else memset(par->buf, 0, 4);
 							};
 
@@ -484,23 +486,23 @@ void Dbecore::Cmd::parlistToParsInv(
 							intval = atoi(val.c_str());
 
 							switch (par->ixVType) {
-								case Par::VecVType::TINYINT:
-									par->setTinyint((tinyint) intval);
+								case Par::VecVType::INT8:
+									par->setInt8((int8_t) intval);
 									break;
-								case Par::VecVType::UTINYINT:
-									par->setUtinyint((utinyint) intval);
+								case Par::VecVType::UINT8:
+									par->setUint8((uint8_t) intval);
 									break;
-								case Par::VecVType::SMALLINT:
-									par->setSmallint((smallint) intval);
+								case Par::VecVType::INT16:
+									par->setInt16((int16_t) intval);
 									break;
-								case Par::VecVType::USMALLINT:
-									par->setUsmallint((usmallint) intval);
+								case Par::VecVType::UINT16:
+									par->setUint16((uint16_t) intval);
 									break;
-								case Par::VecVType::INT:
-									par->setInt(intval);
+								case Par::VecVType::INT32:
+									par->setInt32((int32_t) intval);
 									break;
-								case Par::VecVType::UINT:
-									par->setUint((uint) intval);
+								case Par::VecVType::UINT32:
+									par->setUint32((uint32_t) intval);
 									break;
 							};
 						};

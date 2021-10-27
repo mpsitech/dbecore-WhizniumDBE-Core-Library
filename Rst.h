@@ -18,11 +18,11 @@ namespace Dbecore {
 	class rstref_t {
 
 	public:
-		rstref_t(const Sbecore::uint ixVState = 0, const Sbecore::ubigint rref = 0);
+		rstref_t(const uint32_t ixVState = 0, const uint64_t rref = 0);
 
 	public:
-		Sbecore::uint ixVState;
-		Sbecore::ubigint rref;
+		uint32_t ixVState;
+		uint64_t rref;
 
 	public:
 		bool operator<(const rstref_t& comp) const;
@@ -34,12 +34,12 @@ namespace Dbecore {
 	class rstref2_t {
 
 	public:
-		rstref2_t(const Sbecore::uint ixVTarget = 0, const Sbecore::ubigint uref = 0, const Sbecore::ubigint rref = 0);
+		rstref2_t(const uint32_t ixVTarget = 0, const uint64_t uref = 0, const uint64_t rref = 0);
 
 	public:
-		Sbecore::uint ixVTarget;
-		Sbecore::ubigint uref;
-		Sbecore::ubigint rref;
+		uint32_t ixVTarget;
+		uint64_t uref;
+		uint64_t rref;
 
 	public:
 		bool operator<(const rstref2_t& comp) const;
@@ -57,33 +57,33 @@ namespace Dbecore {
 		class VecVState {
 
 		public:
-			static const Sbecore::uint VOID = 0;
-			static const Sbecore::uint WAITPREP = 1;
-			static const Sbecore::uint WAITINV = 2;
-			static const Sbecore::uint WAITRST = 3;
-			static const Sbecore::uint DONE = 4;
+			static constexpr uint32_t VOID = 0;
+			static constexpr uint32_t WAITPREP = 1;
+			static constexpr uint32_t WAITINV = 2;
+			static constexpr uint32_t WAITRST = 3;
+			static constexpr uint32_t DONE = 4;
 
-			static Sbecore::uint getIx(const std::string& sref);
-			static std::string getSref(const Sbecore::uint ix);
-			static std::string getTitle(const Sbecore::uint ix);
+			static uint32_t getIx(const std::string& sref);
+			static std::string getSref(const uint32_t ix);
+			static std::string getTitle(const uint32_t ix);
 		};
 
 	public:
-		Rst(const Sbecore::uint ixVTarget = 0, const Sbecore::ubigint uref = 0);
+		Rst(const uint32_t ixVTarget = 0, const uint64_t uref = 0);
 		~Rst();
 
 	public:
-		Sbecore::uint ixVTarget;
-		Sbecore::ubigint uref;
+		uint32_t ixVTarget;
+		uint64_t uref;
 
-		Sbecore::uint ixVState;
+		uint32_t ixVState;
 
-		Sbecore::ubigint rref;
+		uint64_t rref;
 
 		bool root;
 		Cmd* cmd;
 
-		std::set<Sbecore::uint> subIcsVTarget;
+		std::set<uint32_t> subIcsVTarget;
 
 		Sbecore::Cond cProgress;
 

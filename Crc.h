@@ -9,7 +9,8 @@
 #ifndef DBECORE_CRC_H
 #define DBECORE_CRC_H
 
-#include <stdlib.h>
+#include <cstddef>
+#include <cstdint>
 
 namespace Dbecore {
 	/**
@@ -18,13 +19,13 @@ namespace Dbecore {
 	class Crc {
 
 	public:
-		Crc(const unsigned short crcpoly = 0x8005, const bool bitinv = false);
+		Crc(const uint16_t crcpoly = 0x8005, const bool bitinv = false);
 
 	public:
-		unsigned short crcpoly;
+		uint16_t crcpoly;
 		bool bitinv;
 
-		unsigned short crc;
+		uint16_t crc;
 
 	public:
 		void reset();

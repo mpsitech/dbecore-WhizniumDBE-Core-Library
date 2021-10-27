@@ -24,24 +24,24 @@ namespace Dbecore {
 		class VecVType {
 
 		public:
-			static const Sbecore::uint TIX = 1;
-			static const Sbecore::uint _BOOL = 2;
-			static const Sbecore::uint TINYINT = 3;
-			static const Sbecore::uint UTINYINT = 4;
-			static const Sbecore::uint SMALLINT = 5;
-			static const Sbecore::uint USMALLINT = 6;
-			static const Sbecore::uint INT = 7;
-			static const Sbecore::uint UINT = 8;
-			static const Sbecore::uint BLOB = 9;
-			static const Sbecore::uint VBLOB = 10;
+			static constexpr uint32_t TIX = 1;
+			static constexpr uint32_t _BOOL = 2;
+			static constexpr uint32_t INT8 = 3;
+			static constexpr uint32_t UINT8 = 4;
+			static constexpr uint32_t INT16 = 5;
+			static constexpr uint32_t UINT16 = 6;
+			static constexpr uint32_t INT32 = 7;
+			static constexpr uint32_t UINT32 = 8;
+			static constexpr uint32_t BLOB = 9;
+			static constexpr uint32_t VBLOB = 10;
 
 		public:
-			static Sbecore::uint getIx(const std::string& sref);
-			static std::string getSref(const Sbecore::uint ix);
+			static uint32_t getIx(const std::string& sref);
+			static std::string getSref(const uint32_t ix);
 		};
 
 	public:
-		Par(const std::string& sref = "", const Sbecore::uint ixVType = 0, Sbecore::utinyint (*getTixBySref)(const std::string& sref) = NULL, std::string (*getSrefByTix)(const Sbecore::utinyint tix) = NULL, void (*fillFeed)(Sbecore::Feed& feed) = NULL, size_t len = 0);
+		Par(const std::string& sref = "", const uint32_t ixVType = 0, uint8_t (*getTixBySref)(const std::string& sref) = NULL, std::string (*getSrefByTix)(const uint8_t tix) = NULL, void (*fillFeed)(Sbecore::Feed& feed) = NULL, size_t len = 0);
 		Par(const Par& src);
 		~Par();
 
@@ -49,10 +49,10 @@ namespace Dbecore {
 
 	public:
 		std::string sref;
-		Sbecore::uint ixVType;
+		uint32_t ixVType;
 
-		Sbecore::utinyint (*getTixBySref)(const std::string& sref); // populated in derived classes
-		std::string (*getSrefByTix)(const Sbecore::utinyint tix);
+		uint8_t (*getTixBySref)(const std::string& sref); // populated in derived classes
+		std::string (*getSrefByTix)(const uint8_t tix);
 		void (*fillFeed)(Sbecore::Feed& feed);
 
 		unsigned char* buf;
@@ -61,30 +61,30 @@ namespace Dbecore {
 	public:
 		void reset();
 
-		void setTix(const Sbecore::utinyint tix);
-		Sbecore::utinyint getTix();
+		void setTix(const uint8_t tix);
+		uint8_t getTix();
 		void setBool(const bool b);
 		bool getBool();
-		void setTinyint(const Sbecore::tinyint i);
-		Sbecore::tinyint getTinyint();
-		void setUtinyint(const Sbecore::utinyint i);
-		Sbecore::utinyint getUtinyint();
-		void setSmallint(Sbecore::smallint i);
-		Sbecore::smallint getSmallint();
-		void setUsmallint(Sbecore::usmallint i);
-		Sbecore::usmallint getUsmallint();
-		void setInt(int i);
-		int getInt();
-		void setUint(Sbecore::uint i);
-		Sbecore::uint getUint();
+		void setInt8(const int8_t i);
+		int8_t getInt8();
+		void setUint8(const uint8_t i);
+		uint8_t getUint8();
+		void setInt16(int16_t i);
+		int16_t getInt16();
+		void setUint16(uint16_t i);
+		uint16_t getUint16();
+		void setInt32(int32_t i);
+		int32_t getInt32();
+		void setUint32(uint32_t i);
+		uint32_t getUint32();
 		void setBlob(const unsigned char* x, const size_t xlen);
 		unsigned char* getBlob();
 		void setVblob(const unsigned char* x, const size_t xlen);
 		unsigned char* getVblob();
 		size_t getLen();
 
-		static void parsToBuf(std::map<std::string,Par>& pars, std::vector<std::string>& seqPars, unsigned char** buf, size_t& buflen);
-		static std::string parsToText(std::map<std::string,Par>& pars, std::vector<std::string>& seqPars, const bool truncate = false, bool* truncated = NULL);
+		static void parsToBuf(std::map<std::string, Par>& pars, std::vector<std::string>& seqPars, unsigned char** buf, size_t& buflen);
+		static std::string parsToText(std::map<std::string, Par>& pars, std::vector<std::string>& seqPars, const bool truncate = false, bool* truncated = NULL);
 	};
 };
 #endif

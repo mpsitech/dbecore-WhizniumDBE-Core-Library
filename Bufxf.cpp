@@ -16,9 +16,9 @@ using namespace Sbecore;
  ******************************************************************************/
 
 Dbecore::bufxfref_t::bufxfref_t(
-			const uint ixVState
-			, const utinyint rootTixWBuffer
-			, const ubigint bref
+			const uint32_t ixVState
+			, const uint8_t rootTixWBuffer
+			, const uint64_t bref
 		) {
 	this->ixVState = ixVState;
 	this->rootTixWBuffer = rootTixWBuffer;
@@ -44,9 +44,9 @@ bool Dbecore::bufxfref_t::operator<(
  ******************************************************************************/
 
 Dbecore::bufxfref2_t::bufxfref2_t(
-			const uint ixVTarget
-			, const ubigint uref
-			, const ubigint bref
+			const uint32_t ixVTarget
+			, const uint64_t uref
+			, const uint64_t bref
 		) {
 	this->ixVTarget = ixVTarget;
 	this->uref = uref;
@@ -71,43 +71,43 @@ bool Dbecore::bufxfref2_t::operator<(
  class Bufxf::VecVState
  ******************************************************************************/
 
-uint Dbecore::Bufxf::VecVState::getIx(
+uint32_t Dbecore::Bufxf::VecVState::getIx(
 			const string& sref
 		) {
 	string s = StrMod::lc(sref);
 
 	if (s == "void") return VOID;
-	else if (s == "waitprep") return WAITPREP;
-	else if (s == "waitinv") return WAITINV;
-	else if (s == "waitxfer") return WAITXFER;
-	else if (s == "waitret") return WAITRET;
-	else if (s == "done") return DONE;
+	if (s == "waitprep") return WAITPREP;
+	if (s == "waitinv") return WAITINV;
+	if (s == "waitxfer") return WAITXFER;
+	if (s == "waitret") return WAITRET;
+	if (s == "done") return DONE;
 
 	return 0;
 };
 
 string Dbecore::Bufxf::VecVState::getSref(
-			const uint ix
+			const uint32_t ix
 		) {
 	if (ix == VOID) return("void");
-	else if (ix == WAITPREP) return("waitprep");
-	else if (ix == WAITINV) return("waitinv");
-	else if (ix == WAITXFER) return("waitxfer");
-	else if (ix == WAITRET) return("waitret");
-	else if (ix == DONE) return("done");
+	if (ix == WAITPREP) return("waitprep");
+	if (ix == WAITINV) return("waitinv");
+	if (ix == WAITXFER) return("waitxfer");
+	if (ix == WAITRET) return("waitret");
+	if (ix == DONE) return("done");
 
 	return("");
 };
 
 string Dbecore::Bufxf::VecVState::getTitle(
-			const uint ix
+			const uint32_t ix
 		) {
 	if (ix == VOID) return("invalid");
-	else if (ix == WAITPREP) return("wait for prepare");
-	else if (ix == WAITINV) return("wait for command invoke");
-	else if (ix == WAITXFER) return("wait for transfer");
-	else if (ix == WAITRET) return("wait for command return");
-	else if (ix == DONE) return("done");
+	if (ix == WAITPREP) return("wait for prepare");
+	if (ix == WAITINV) return("wait for command invoke");
+	if (ix == WAITXFER) return("wait for transfer");
+	if (ix == WAITRET) return("wait for command return");
+	if (ix == DONE) return("done");
 
 	return("");
 };
@@ -117,7 +117,7 @@ string Dbecore::Bufxf::VecVState::getTitle(
  ******************************************************************************/
 
 Dbecore::Bufxf::Bufxf(
-			const utinyint tixWBuffer
+			const uint8_t tixWBuffer
 			, const bool writeNotRead
 			, const size_t reqlen
 			, const size_t prelen

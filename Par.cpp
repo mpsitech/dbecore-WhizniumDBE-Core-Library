@@ -16,38 +16,38 @@ using namespace Xmlio;
  class Par::VecVType
  ******************************************************************************/
 
-uint Dbecore::Par::VecVType::getIx(
+uint32_t Dbecore::Par::VecVType::getIx(
 			const string& sref
 		) {
 	string s = StrMod::lc(sref);
 
-	if (s.compare("tix") == 0) return TIX;
-	else if (s.compare("bool") == 0) return _BOOL;
-	else if (s.compare("tinyint") == 0) return TINYINT;
-	else if (s.compare("utinyint") == 0) return UTINYINT;
-	else if (s.compare("smallint") == 0) return SMALLINT;
-	else if (s.compare("usmallint") == 0) return USMALLINT;
-	else if (s.compare("int") == 0) return INT;
-	else if (s.compare("uint") == 0) return UINT;
-	else if (s.compare("blob") == 0) return BLOB;
-	else if (s.compare("vblob") == 0) return VBLOB;
+	if (s == "tix") return TIX;
+	if (s == "bool") return _BOOL;
+	if (s == "int8") return INT8;
+	if (s == "uint8") return UINT8;
+	if (s == "int16") return INT16;
+	if (s == "uint16") return UINT16;
+	if (s == "int32") return INT32;
+	if (s == "uint32") return UINT32;
+	if (s == "blob") return BLOB;
+	if (s == "vblob") return VBLOB;
 
 	return 0;
 };
 
 string Dbecore::Par::VecVType::getSref(
-			const uint ix
+			const uint32_t ix
 		) {
 	if (ix == TIX) return("tix");
-	else if (ix == _BOOL) return("bool");
-	else if (ix == TINYINT) return("tinyint");
-	else if (ix == UTINYINT) return("utinyint");
-	else if (ix == SMALLINT) return("smallint");
-	else if (ix == USMALLINT) return("usmallint");
-	else if (ix == INT) return("int");
-	else if (ix == UINT) return("uint");
-	else if (ix == BLOB) return("blob");
-	else if (ix == VBLOB) return("vblob");
+	if (ix == _BOOL) return("bool");
+	if (ix == INT8) return("int8");
+	if (ix == UINT8) return("uint8");
+	if (ix == INT16) return("int16");
+	if (ix == UINT16) return("uint16");
+	if (ix == INT32) return("int32");
+	if (ix == UINT32) return("uint32");
+	if (ix == BLOB) return("blob");
+	if (ix == VBLOB) return("vblob");
 
 	return("");
 };
@@ -59,8 +59,8 @@ string Dbecore::Par::VecVType::getSref(
 Dbecore::Par::Par(
 			const string& sref
 			, const uint ixVType
-			, utinyint (*getTixBySref)(const string& sref)
-			, string (*getSrefByTix)(const utinyint tix)
+			, uint8_t (*getTixBySref)(const string& sref)
+			, string (*getSrefByTix)(const uint8_t tix)
 			, void (*fillFeed)(Feed& feed)
 			, size_t len
 		) {
@@ -77,18 +77,18 @@ Dbecore::Par::Par(
 	switch (ixVType) {
 		case VecVType::TIX:
 		case VecVType::_BOOL:
-		case VecVType::TINYINT:
-		case VecVType::UTINYINT:
+		case VecVType::INT8:
+		case VecVType::UINT8:
 			buf = new unsigned char[1];
 			buflen = 1;
 			break;
-		case VecVType::SMALLINT:
-		case VecVType::USMALLINT:
+		case VecVType::INT16:
+		case VecVType::UINT16:
 			buf = new unsigned char[2];
 			buflen = 2;
 			break;
-		case VecVType::INT:
-		case VecVType::UINT:
+		case VecVType::INT32:
+		case VecVType::UINT32:
 			buf = new unsigned char[4];
 			buflen = 4;
 			break;
@@ -99,9 +99,9 @@ Dbecore::Par::Par(
 			};
 			break;
 		case VecVType::VBLOB:
-			buf = new unsigned char[len+1];
+			buf = new unsigned char[len + 1];
 			buf[0] = len;
-			buflen = len+1;
+			buflen = len + 1;
 	};
 };
 
@@ -152,12 +152,12 @@ void Dbecore::Par::reset() {
 };
 
 void Dbecore::Par::setTix(
-			const utinyint tix
+			const uint8_t tix
 		) {
 	*buf = tix;
 };
 
-utinyint Dbecore::Par::getTix() {
+uint8_t Dbecore::Par::getTix() {
 	return *buf;
 };
 
@@ -172,28 +172,28 @@ bool Dbecore::Par::getBool() {
 	return(*buf == 0x55);
 };
 
-void Dbecore::Par::setTinyint(
-			const tinyint i
+void Dbecore::Par::setInt8(
+			const int8_t i
 		) {
 	*buf = i;
 };
 
-tinyint Dbecore::Par::getTinyint() {
+int8_t Dbecore::Par::getInt8() {
 	return *buf;
 };
 
-void Dbecore::Par::setUtinyint(
-			const utinyint i
+void Dbecore::Par::setUint8(
+			const uint8_t i
 		) {
 	*buf = i;
 };
 
-utinyint Dbecore::Par::getUtinyint() {
+uint8_t Dbecore::Par::getUint8() {
 	return *buf;
 };
 
-void Dbecore::Par::setSmallint(
-			smallint i
+void Dbecore::Par::setInt16(
+			int16_t i
 		) {
 	unsigned char* ptr = (unsigned char*) &i;
 
@@ -206,8 +206,8 @@ void Dbecore::Par::setSmallint(
 	};
 };
 
-smallint Dbecore::Par::getSmallint() {
-	smallint retval;
+int16_t Dbecore::Par::getInt16() {
+	int16_t retval;
 
 	if (Dbe::bigendian()) {
 		((unsigned char*) &retval)[0] = buf[0];
@@ -220,8 +220,8 @@ smallint Dbecore::Par::getSmallint() {
 	return retval;
 };
 
-void Dbecore::Par::setUsmallint(
-			usmallint i
+void Dbecore::Par::setUint16(
+			uint16_t i
 		) {
 	unsigned char* ptr = (unsigned char*) &i;
 
@@ -234,16 +234,16 @@ void Dbecore::Par::setUsmallint(
 	};
 };
 
-usmallint Dbecore::Par::getUsmallint() {
-	usmallint retval;
+uint16_t Dbecore::Par::getUint16() {
+	uint16_t retval;
 
 	retval = (buf[0] << 8) + buf[1];
 
 	return retval;
 };
 
-void Dbecore::Par::setInt(
-			int i
+void Dbecore::Par::setInt32(
+			int32_t i
 		) {
 	unsigned char* ptr = (unsigned char*) &i;
 
@@ -260,8 +260,8 @@ void Dbecore::Par::setInt(
 	};
 };
 
-int Dbecore::Par::getInt() {
-	int retval;
+int32_t Dbecore::Par::getInt32() {
+	int32_t retval;
 
 	if (Dbe::bigendian()) {
 		((unsigned char*) &retval)[0] = buf[0];
@@ -278,8 +278,8 @@ int Dbecore::Par::getInt() {
 	return retval;
 };
 
-void Dbecore::Par::setUint(
-			uint i
+void Dbecore::Par::setUint32(
+			uint32_t i
 		) {
 	unsigned char* ptr = (unsigned char*) &i;
 
@@ -296,8 +296,8 @@ void Dbecore::Par::setUint(
 	};
 };
 
-uint Dbecore::Par::getUint() {
-	uint retval;
+uint32_t Dbecore::Par::getUint32() {
+	uint32_t retval;
 
 	retval = (buf[0] << 24) + (buf[1] << 16) + (buf[2] << 8) + buf[3];
 
@@ -349,8 +349,8 @@ unsigned char* Dbecore::Par::getVblob() {
 	unsigned char* retval = NULL;
 
 	if (buflen > 1) {
-		retval = new unsigned char[buflen-1];
-		memcpy(retval, &(buf[1]), buflen-1);
+		retval = new unsigned char[buflen - 1];
+		memcpy(retval, &(buf[1]), buflen - 1);
 	};
 
 	return retval;
@@ -361,7 +361,7 @@ size_t Dbecore::Par::getLen() {
 
 	if (buf) {
 		len = buflen;
-		if ((ixVType == VecVType::VBLOB) && (buflen > 0)) len = buflen-1;
+		if ((ixVType == VecVType::VBLOB) && (buflen > 0)) len = buflen - 1;
 	};
 
 	return len;
@@ -394,7 +394,7 @@ void Dbecore::Par::parsToBuf(
 		if (it != pars.end()) {
 			par = &(it->second);
 
-			if ((bufptr+par->buflen) <= buflen) {
+			if ((bufptr + par->buflen) <= buflen) {
 				memcpy(&((*buf)[bufptr]), par->buf, par->buflen);
 				bufptr += par->buflen;
 			} else break;
@@ -433,21 +433,21 @@ string Dbecore::Par::parsToText(
 				bool b = par->getBool();
 				if (b) retval += "true"; else retval += "false";
 
-			} else if ((par->ixVType == Par::VecVType::TINYINT) || (par->ixVType == Par::VecVType::SMALLINT) || (par->ixVType == Par::VecVType::INT)) {
+			} else if ((par->ixVType == Par::VecVType::INT8) || (par->ixVType == Par::VecVType::INT16) || (par->ixVType == Par::VecVType::INT32)) {
 				int _i = 0;
 
-				if (par->ixVType == Par::VecVType::TINYINT) _i = par->getTinyint();
-				else if (par->ixVType == Par::VecVType::SMALLINT) _i = par->getSmallint();
-				else if (par->ixVType == Par::VecVType::INT) _i = par->getInt();
+				if (par->ixVType == Par::VecVType::INT8) _i = par->getInt8();
+				else if (par->ixVType == Par::VecVType::INT16) _i = par->getInt16();
+				else if (par->ixVType == Par::VecVType::INT32) _i = par->getInt32();
 
 				retval += to_string(_i);
 
-			} else if ((par->ixVType == Par::VecVType::UTINYINT) || (par->ixVType == Par::VecVType::USMALLINT) || (par->ixVType == Par::VecVType::UINT)) {
+			} else if ((par->ixVType == Par::VecVType::UINT8) || (par->ixVType == Par::VecVType::UINT16) || (par->ixVType == Par::VecVType::UINT32)) {
 				unsigned int ui = 0;
 
-				if (par->ixVType == Par::VecVType::UTINYINT) ui = par->getUtinyint();
-				else if (par->ixVType == Par::VecVType::USMALLINT) ui = par->getUsmallint();
-				else if (par->ixVType == Par::VecVType::UINT) ui = par->getUint();
+				if (par->ixVType == Par::VecVType::UINT8) ui = par->getUint8();
+				else if (par->ixVType == Par::VecVType::UINT16) ui = par->getUint16();
+				else if (par->ixVType == Par::VecVType::UINT32) ui = par->getUint32();
 
 				retval += to_string(ui);
 

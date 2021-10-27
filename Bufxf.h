@@ -18,12 +18,12 @@ namespace Dbecore {
 	class bufxfref_t {
 
 	public:
-		bufxfref_t(const Sbecore::uint ixVState = 0, const Sbecore::utinyint rootTixWBuffer = 0, const Sbecore::ubigint bref = 0);
+		bufxfref_t(const uint32_t ixVState = 0, const uint8_t rootTixWBuffer = 0, const uint64_t bref = 0);
 
 	public:
-		Sbecore::uint ixVState;
-		Sbecore::utinyint rootTixWBuffer;
-		Sbecore::ubigint bref;
+		uint32_t ixVState;
+		uint8_t rootTixWBuffer;
+		uint64_t bref;
 
 	public:
 		bool operator<(const bufxfref_t& comp) const;
@@ -35,12 +35,12 @@ namespace Dbecore {
 	class bufxfref2_t {
 
 	public:
-		bufxfref2_t(const Sbecore::uint ixVTarget = 0, const Sbecore::ubigint uref = 0, const Sbecore::ubigint bref = 0);
+		bufxfref2_t(const uint32_t ixVTarget = 0, const uint64_t uref = 0, const uint64_t bref = 0);
 
 	public:
-		Sbecore::uint ixVTarget;
-		Sbecore::ubigint uref;
-		Sbecore::ubigint bref;
+		uint32_t ixVTarget;
+		uint64_t uref;
+		uint64_t bref;
 
 	public:
 		bool operator<(const bufxfref2_t& comp) const;
@@ -58,24 +58,24 @@ namespace Dbecore {
 		class VecVState {
 
 		public:
-			static const Sbecore::uint VOID = 0;
-			static const Sbecore::uint WAITPREP = 1;
-			static const Sbecore::uint WAITINV = 2;
-			static const Sbecore::uint WAITXFER = 3;
-			static const Sbecore::uint WAITRET = 4;
-			static const Sbecore::uint DONE = 5;
+			static constexpr uint32_t VOID = 0;
+			static constexpr uint32_t WAITPREP = 1;
+			static constexpr uint32_t WAITINV = 2;
+			static constexpr uint32_t WAITXFER = 3;
+			static constexpr uint32_t WAITRET = 4;
+			static constexpr uint32_t DONE = 5;
 
-			static Sbecore::uint getIx(const std::string& sref);
-			static std::string getSref(const Sbecore::uint ix);
-			static std::string getTitle(const Sbecore::uint ix);
+			static uint32_t getIx(const std::string& sref);
+			static std::string getSref(const uint32_t ix);
+			static std::string getTitle(const uint32_t ix);
 		};
 
 	public:
-		Bufxf(const Sbecore::utinyint tixWBuffer, const bool writeNotRead, const size_t reqlen, const size_t prelen = 0, const size_t postlen = 0, unsigned char* buf = NULL);
+		Bufxf(const uint8_t tixWBuffer, const bool writeNotRead, const size_t reqlen, const size_t prelen = 0, const size_t postlen = 0, unsigned char* buf = NULL);
 		~Bufxf();
 
 	public:
-		Sbecore::utinyint tixWBuffer;
+		uint8_t tixWBuffer;
 
 		bool writeNotRead;
 
@@ -83,16 +83,16 @@ namespace Dbecore {
 		size_t prelen;
 		size_t postlen;
 
-		Sbecore::uint ixVTarget;
-		Sbecore::ubigint uref;
+		uint32_t ixVTarget;
+		uint64_t uref;
 
-		Sbecore::uint ixVState;
+		uint32_t ixVState;
 
-		Sbecore::ubigint bref;
+		uint64_t bref;
 
 		std::set<cmdix_t> icsReqcmd;
 
-		Sbecore::utinyint rootTixWBuffer;
+		uint8_t rootTixWBuffer;
 		std::vector<Cmd*> cmds;
 
 		bool dataExtNotInt;

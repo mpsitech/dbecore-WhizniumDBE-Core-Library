@@ -16,8 +16,8 @@ using namespace Sbecore;
  ******************************************************************************/
 
 Dbecore::rstref_t::rstref_t(
-			const uint ixVState
-			, const ubigint rref
+			const uint32_t ixVState
+			, const uint64_t rref
 		) {
 	this->ixVState = ixVState;
 	this->rref = rref;
@@ -39,8 +39,8 @@ bool Dbecore::rstref_t::operator<(
 
 Dbecore::rstref2_t::rstref2_t(
 			const uint ixVTarget
-			, const ubigint uref
-			, const ubigint rref
+			, const uint64_t uref
+			, const uint64_t rref
 		) {
 	this->ixVTarget = ixVTarget;
 	this->uref = uref;
@@ -65,40 +65,40 @@ bool Dbecore::rstref2_t::operator<(
  class Rst::VecVState
  ******************************************************************************/
 
-uint Dbecore::Rst::VecVState::getIx(
+uint32_t Dbecore::Rst::VecVState::getIx(
 			const string& sref
 		) {
 	string s = StrMod::lc(sref);
 
 	if (s == "void") return VOID;
-	else if (s == "waitprep") return WAITPREP;
-	else if (s == "waitinv") return WAITINV;
-	else if (s == "waitrst") return WAITRST;
-	else if (s == "done") return DONE;
+	if (s == "waitprep") return WAITPREP;
+	if (s == "waitinv") return WAITINV;
+	if (s == "waitrst") return WAITRST;
+	if (s == "done") return DONE;
 
 	return 0;
 };
 
 string Dbecore::Rst::VecVState::getSref(
-			const uint ix
+			const uint32_t ix
 		) {
 	if (ix == VOID) return("void");
-	else if (ix == WAITPREP) return("waitprep");
-	else if (ix == WAITINV) return("waitinv");
-	else if (ix == WAITRST) return("waitrst");
-	else if (ix == DONE) return("done");
+	if (ix == WAITPREP) return("waitprep");
+	if (ix == WAITINV) return("waitinv");
+	if (ix == WAITRST) return("waitrst");
+	if (ix == DONE) return("done");
 
 	return("");
 };
 
 string Dbecore::Rst::VecVState::getTitle(
-			const uint ix
+			const uint32_t ix
 		) {
 	if (ix == VOID) return("invalid");
-	else if (ix == WAITPREP) return("wait for prepare");
-	else if (ix == WAITINV) return("wait for command invoke (non-root)");
-	else if (ix == WAITRST) return("wait for reset (root or non-root)");
-	else if (ix == DONE) return("done");
+	if (ix == WAITPREP) return("wait for prepare");
+	if (ix == WAITINV) return("wait for command invoke (non-root)");
+	if (ix == WAITRST) return("wait for reset (root or non-root)");
+	if (ix == DONE) return("done");
 
 	return("");
 };
@@ -108,8 +108,8 @@ string Dbecore::Rst::VecVState::getTitle(
  ******************************************************************************/
 
 Dbecore::Rst::Rst(
-			const uint ixVTarget
-			, const ubigint uref
+			const uint32_t ixVTarget
+			, const uint64_t uref
 		) :
 			cProgress("cProgress", "Rst", "Rst")
 		{

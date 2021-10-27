@@ -15,7 +15,7 @@ using namespace Sbecore;
  namespace VecDbeVAction
  ******************************************************************************/
 
-utinyint Dbecore::VecDbeVAction::getTix(
+uint8_t Dbecore::VecDbeVAction::getTix(
 			const string& sref
 		) {
 	string s = StrMod::lc(sref);
@@ -36,7 +36,7 @@ utinyint Dbecore::VecDbeVAction::getTix(
 };
 
 string Dbecore::VecDbeVAction::getSref(
-			const utinyint tix
+			const uint8_t tix
 		) {
 	if (tix == INV) return("inv");
 	else if (tix == REV) return("rev");
@@ -54,7 +54,7 @@ string Dbecore::VecDbeVAction::getSref(
 };
 
 string Dbecore::VecDbeVAction::getTitle(
-			const utinyint tix
+			const uint8_t tix
 		) {
 	if (tix == INV) return("invoke");
 	else if (tix == REV) return("revoke");
@@ -75,7 +75,7 @@ string Dbecore::VecDbeVAction::getTitle(
  namespace VecDbeVXfer
  ******************************************************************************/
 
-utinyint Dbecore::VecDbeVXfer::getTix(
+uint8_t Dbecore::VecDbeVXfer::getTix(
 			const string& sref
 		) {
 	string s = StrMod::lc(sref);
@@ -98,7 +98,7 @@ utinyint Dbecore::VecDbeVXfer::getTix(
 };
 
 string Dbecore::VecDbeVXfer::getSref(
-			const utinyint tix
+			const uint8_t tix
 		) {
 	if (tix == VOID) return("void");
 	else if (tix == TKN) return("tkn");
