@@ -58,7 +58,7 @@ string Dbecore::Par::VecVType::getSref(
 
 Dbecore::Par::Par(
 			const string& sref
-			, const uint ixVType
+			, const uint32_t ixVType
 			, uint8_t (*getTixBySref)(const string& sref)
 			, string (*getSrefByTix)(const uint8_t tix)
 			, void (*fillFeed)(Feed& feed)
@@ -381,10 +381,7 @@ void Dbecore::Par::parsToBuf(
 
 	for (auto it = pars.begin(); it != pars.end(); it++) buflen += it->second.buflen;
 
-	if (buflen > 0) {
-		*buf = new unsigned char[buflen];
-		memset(*buf, 0, buflen);
-	} else *buf = NULL;
+	if ((*buf == NULL) && (buflen > 0)) *buf = new unsigned char[buflen];
 
 	bufptr = 0;
 

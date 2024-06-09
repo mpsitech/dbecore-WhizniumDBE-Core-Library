@@ -71,11 +71,11 @@ namespace Dbecore {
 		};
 
 	public:
-		Bufxf(const uint8_t tixWBuffer, const bool writeNotRead, const size_t reqlen, const size_t prelen = 0, const size_t postlen = 0, unsigned char* buf = NULL);
+		Bufxf(const uint8_t tixVBuffer, const bool writeNotRead, const size_t reqlen, const size_t prelen = 0, const size_t postlen = 0, unsigned char* buf = NULL);
 		~Bufxf();
 
 	public:
-		uint8_t tixWBuffer;
+		uint8_t tixVBuffer;
 
 		bool writeNotRead;
 

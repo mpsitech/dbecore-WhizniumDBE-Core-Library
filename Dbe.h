@@ -16,6 +16,34 @@
 
 namespace Dbecore {
 	/**
+		* VecDbeVBufxfop
+		*/
+	namespace VecDbeVBufxfop {
+		constexpr uint8_t RESET = 0x00;
+		constexpr uint8_t POLL = 0x01;
+		constexpr uint8_t XFER = 0x02;
+		constexpr uint8_t XFERLAST = 0x03;
+
+		uint8_t getTix(const std::string& sref);
+		std::string getSref(const uint8_t tix);
+		std::string getTitle(const uint8_t tix);
+	};
+
+	/**
+		* VecDbeVCmdop
+		*/
+	namespace VecDbeVCmdop {
+		constexpr uint8_t INV = 0x00;
+		constexpr uint8_t REV = 0x01;
+		constexpr uint8_t RET = 0x02;
+		constexpr uint8_t ERR = 0x03;
+
+		uint8_t getTix(const std::string& sref);
+		std::string getSref(const uint8_t tix);
+		std::string getTitle(const uint8_t tix);
+	};
+
+	/**
 		* VecDbeVAction
 		*/
 	namespace VecDbeVAction {

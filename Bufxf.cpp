@@ -117,7 +117,7 @@ string Dbecore::Bufxf::VecVState::getTitle(
  ******************************************************************************/
 
 Dbecore::Bufxf::Bufxf(
-			const uint8_t tixWBuffer
+			const uint8_t tixVBuffer
 			, const bool writeNotRead
 			, const size_t reqlen
 			, const size_t prelen
@@ -126,7 +126,7 @@ Dbecore::Bufxf::Bufxf(
 		) :
 			cProgress("cProgress", "Bufxf", "Bufxf")
 		{
-	this->tixWBuffer = tixWBuffer;
+	this->tixVBuffer = tixVBuffer;
 
 	this->writeNotRead = writeNotRead;
 

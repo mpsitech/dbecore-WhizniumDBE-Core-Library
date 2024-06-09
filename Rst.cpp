@@ -38,7 +38,7 @@ bool Dbecore::rstref_t::operator<(
  ******************************************************************************/
 
 Dbecore::rstref2_t::rstref2_t(
-			const uint ixVTarget
+			const uint32_t ixVTarget
 			, const uint64_t uref
 			, const uint64_t rref
 		) {

@@ -12,6 +12,84 @@ using namespace std;
 using namespace Sbecore;
 
 /******************************************************************************
+ namespace VecDbeVBufxfop
+ ******************************************************************************/
+
+uint8_t Dbecore::VecDbeVBufxfop::getTix(
+			const string& sref
+		) {
+	string s = StrMod::lc(sref);
+
+	if (s == "reset") return RESET;
+	else if (s == "poll") return POLL;
+	else if (s == "xfer") return XFER;
+	else if (s == "xferlast") return XFERLAST;
+
+	return 0;
+};
+
+string Dbecore::VecDbeVBufxfop::getSref(
+			const uint8_t tix
+		) {
+	if (tix == RESET) return("reset");
+	else if (tix == POLL) return("poll");
+	else if (tix == XFER) return("xfer");
+	else if (tix == XFERLAST) return("xferlast");
+
+	return("");
+};
+
+string Dbecore::VecDbeVBufxfop::getTitle(
+			const uint8_t tix
+		) {
+	if (tix == RESET) return("reset");
+	else if (tix == POLL) return("poll");
+	else if (tix == XFER) return("transfer");
+	else if (tix == XFERLAST) return("last transfer");
+
+	return("");
+};
+
+/******************************************************************************
+ namespace VecDbeVCmdop
+ ******************************************************************************/
+
+uint8_t Dbecore::VecDbeVCmdop::getTix(
+			const string& sref
+		) {
+	string s = StrMod::lc(sref);
+
+	if (s == "inv") return INV;
+	else if (s == "rev") return REV;
+	else if (s == "ret") return RET;
+	else if (s == "err") return ERR;
+
+	return 0;
+};
+
+string Dbecore::VecDbeVCmdop::getSref(
+			const uint8_t tix
+		) {
+	if (tix == INV) return("inv");
+	else if (tix == REV) return("rev");
+	else if (tix == RET) return("ret");
+	else if (tix == ERR) return("err");
+
+	return("");
+};
+
+string Dbecore::VecDbeVCmdop::getTitle(
+			const uint8_t tix
+		) {
+	if (tix == INV) return("invoke");
+	else if (tix == REV) return("revoke");
+	else if (tix == RET) return("return");
+	else if (tix == ERR) return("error");
+
+	return("");
+};
+
+/******************************************************************************
  namespace VecDbeVAction
  ******************************************************************************/
 
