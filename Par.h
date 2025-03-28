@@ -42,49 +42,50 @@ namespace Dbecore {
 
 	public:
 		Par(const std::string& sref = "", const uint32_t ixVType = 0, uint8_t (*getTixBySref)(const std::string& sref) = NULL, std::string (*getSrefByTix)(const uint8_t tix) = NULL, void (*fillFeed)(Sbecore::Feed& feed) = NULL, size_t len = 0);
-		Par(const Par& src);
-		~Par();
-
-		Par& operator=(const Par& src);
 
 	public:
 		std::string sref;
 		uint32_t ixVType;
 
-		uint8_t (*getTixBySref)(const std::string& sref); // populated in derived classes
+		uint8_t (*getTixBySref)(const std::string& sref);
 		std::string (*getSrefByTix)(const uint8_t tix);
 		void (*fillFeed)(Sbecore::Feed& feed);
 
-		unsigned char* buf;
-		size_t buflen;
+		size_t len;
 
 	public:
-		void reset();
+		static void setTix(uint8_t* buf, const size_t ofs, const uint8_t tix);
+		static uint8_t getTix(const uint8_t* buf, const size_t ofs);
 
-		void setTix(const uint8_t tix);
-		uint8_t getTix();
-		void setBool(const bool b);
-		bool getBool();
-		void setInt8(const int8_t i);
-		int8_t getInt8();
-		void setUint8(const uint8_t i);
-		uint8_t getUint8();
-		void setInt16(int16_t i);
-		int16_t getInt16();
-		void setUint16(uint16_t i);
-		uint16_t getUint16();
-		void setInt32(int32_t i);
-		int32_t getInt32();
-		void setUint32(uint32_t i);
-		uint32_t getUint32();
-		void setBlob(const unsigned char* x, const size_t xlen);
-		unsigned char* getBlob();
-		void setVblob(const unsigned char* x, const size_t xlen);
-		unsigned char* getVblob();
-		size_t getLen();
+		static void setBool(uint8_t* buf, const size_t ofs, const bool b);
+		static bool getBool(const uint8_t* buf, const size_t ofs);
 
-		static void parsToBuf(std::map<std::string, Par>& pars, std::vector<std::string>& seqPars, unsigned char** buf, size_t& buflen);
-		static std::string parsToText(std::map<std::string, Par>& pars, std::vector<std::string>& seqPars, const bool truncate = false, bool* truncated = NULL);
+		static void setInt8(uint8_t* buf, const size_t ofs, const int8_t i);
+		static int8_t getInt8(const uint8_t* buf, const size_t ofs);
+
+		static void setUint8(uint8_t* buf, const size_t ofs, const uint8_t i);
+		static uint8_t getUint8(const uint8_t* buf, const size_t ofs);
+
+		static void setInt16(uint8_t* buf, const size_t ofs, const int16_t i);
+		static int16_t getInt16(const uint8_t* buf, const size_t ofs);
+
+		static void setUint16(uint8_t* buf, const size_t ofs, uint16_t i);
+		static uint16_t getUint16(const uint8_t* buf, const size_t ofs);
+
+		static void setInt32(uint8_t* buf, const size_t ofs, const int32_t i);
+		static int32_t getInt32(const uint8_t* buf, const size_t ofs);
+
+		static void setUint32(uint8_t* buf, const size_t ofs, const uint32_t i);
+		static uint32_t getUint32(const uint8_t* buf, const size_t ofs);
+
+		static void setBlob(uint8_t* buf, const size_t ofs, const size_t len, const unsigned char* x, const size_t xlen);
+		static unsigned char* getBlob(const uint8_t* buf, const size_t ofs, const size_t len);
+
+		static void setVblob(uint8_t* buf, const size_t ofs, const size_t len, const unsigned char* x, const size_t xlen);
+		static unsigned char* getVblob(const uint8_t* buf, const size_t ofs, const size_t len);
+		static size_t getVblobLen(const uint8_t* buf, const size_t ofs);
+
+		static std::string parsToText(std::map<uint32_t, Par>& pars, uint8_t* buf, const bool truncate, bool* truncated);
 	};
 };
 #endif

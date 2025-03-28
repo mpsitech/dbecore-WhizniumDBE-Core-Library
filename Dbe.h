@@ -10,6 +10,7 @@
 #define DBECORE_DBE_H
 
 #include <cstdint>
+#include <endian.h>
 
 #include <sbecore/Mttypes.h>
 #include <sbecore/Xmlio.h>
