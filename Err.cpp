@@ -51,6 +51,7 @@ void Dbecore::Err::bufToPars(
 
 	bufptr = 0;
 
+/*
 	for (unsigned int i = 0; i < seqPars.size(); i++) {
 		auto it = pars.find(seqPars[i]);
 
@@ -81,19 +82,20 @@ void Dbecore::Err::bufToPars(
 			};
 		};
 	};
+*/
 };
 
 void Dbecore::Err::parsToBuf(
 			unsigned char** buf
 			, size_t& buflen
 		) {
-	Par::parsToBuf(pars, seqPars, buf, buflen);
+	//Par::parsToBuf(pars, seqPars, buf, buflen);
 };
 
 size_t Dbecore::Err::getBuflen() {
 	size_t buflen = 0;
 
-	for (auto it = pars.begin(); it != pars.end(); it++) buflen += it->second.buflen;
+	//for (auto it = pars.begin(); it != pars.end(); it++) buflen += it->second.buflen;
 
 	return buflen;
 };
@@ -102,7 +104,8 @@ string Dbecore::Err::getParText(
 			const bool truncate
 			, bool* truncated
 		) {
-	return Par::parsToText(pars, seqPars, truncate, truncated);
+	//return Par::parsToText(pars, seqPars, truncate, truncated);
+	return("");
 };
 
 string Dbecore::Err::getParHex(
